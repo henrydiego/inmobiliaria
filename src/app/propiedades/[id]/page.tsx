@@ -19,6 +19,8 @@ export default function PropertyDetailPage() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null)
+  const closeLightbox = useCallback(() => setLightboxImg(null), [])
 
   useEffect(() => {
     async function load() {
@@ -69,10 +71,7 @@ export default function PropertyDetailPage() {
     )
   }
 
-  const [lightboxImg, setLightboxImg] = useState<string | null>(null)
   const planImages = property.planImageUrls || []
-
-  const closeLightbox = useCallback(() => setLightboxImg(null), [])
 
   const whatsappMsg = `Hola, me interesa la propiedad: ${property.title} (${formatPrice(property.price, property.currency)})`
 
