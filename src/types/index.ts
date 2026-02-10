@@ -16,6 +16,7 @@ export interface Property {
   yearBuilt?: number
   features: string[]
   imageUrls: string[]
+  planImageUrls?: string[]
   location: {
     address: string
     zone: string

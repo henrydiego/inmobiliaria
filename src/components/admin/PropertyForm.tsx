@@ -27,6 +27,7 @@ const EMPTY: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
   parkingSpots: 0,
   features: [],
   imageUrls: [],
+  planImageUrls: [],
   location: { address: "", zone: "Zona Norte", city: "Cochabamba", lat: -17.3895, lng: -66.1568 },
   contact: { phone: "", whatsapp: "", email: "" },
   featured: false,
@@ -171,6 +172,17 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       {/* Images */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <ImageUploader images={form.imageUrls} onChange={(urls) => update({ imageUrls: urls })} />
+      </div>
+
+      {/* Plan Images */}
+      <div className="bg-white rounded-xl shadow-md p-6">
+        <ImageUploader
+          images={form.planImageUrls || []}
+          onChange={(urls) => update({ planImageUrls: urls })}
+          label="Imágenes del plano"
+          maxImages={2}
+        />
+        <p className="text-xs text-gray-medium mt-2">Sube hasta 2 imágenes del plano de la propiedad.</p>
       </div>
 
       {/* Options */}

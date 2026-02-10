@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import { getProperty, submitContact } from "@/hooks/useProperties"
@@ -69,6 +69,11 @@ export default function PropertyDetailPage() {
     )
   }
 
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null)
+  const planImages = property.planImageUrls || []
+
+  const closeLightbox = useCallback(() => setLightboxImg(null), [])
+
   const whatsappMsg = `Hola, me interesa la propiedad: ${property.title} (${formatPrice(property.price, property.currency)})`
 
   return (
@@ -128,6 +133,37 @@ export default function PropertyDetailPage() {
                   <span key={i} className="bg-primary-light/10 text-primary-light px-3 py-1 rounded-full text-sm font-medium">
                     {f}
                   </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Plan Images */}
+          {planImages.length > 0 && (
+            <div>
+              <h2 className="text-xl font-semibold text-gray-dark mb-3">Plano</h2>
+              <div className={`grid gap-4 ${planImages.length === 1 ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"}`}>
+                {planImages.map((url, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setLightboxImg(url)}
+                    className="relative group rounded-xl overflow-hidden border border-gray-200 cursor-pointer"
+                  >
+                    <img
+                      src={url}
+                      alt={`Plano ${i + 1}`}
+                      className="w-full h-auto object-contain bg-white"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 text-gray-dark px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                        Ver plano
+                      </span>
+                    </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -223,6 +259,45 @@ export default function PropertyDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightboxImg && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+            aria-label="Cerrar"
+          >
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          {planImages.length > 1 && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+              {planImages.map((url, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.stopPropagation(); setLightboxImg(url) }}
+                  className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
+                    lightboxImg === url ? "border-white" : "border-transparent opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <img src={url} alt={`Plano ${i + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+          <img
+            src={lightboxImg}
+            alt="Plano"
+            className="max-w-full max-h-[85vh] object-contain rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   )
 }
