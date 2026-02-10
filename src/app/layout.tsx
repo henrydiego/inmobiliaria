@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
+import { SiteConfigProvider } from "@/contexts/SiteConfigContext"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,8 +11,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Inmobiliaria 21 | Bienes Raíces en Cochabamba",
-  description: "Encuentra tu propiedad ideal en Cochabamba. Casas, departamentos, terrenos y más.",
+  title: "Inmobiliaria 21 | Bienes Raíces en La Paz",
+  description: "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
 }
 
 export default function RootLayout({
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <SiteConfigProvider>
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </SiteConfigProvider>
       </body>
     </html>
   )

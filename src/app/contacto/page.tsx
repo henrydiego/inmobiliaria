@@ -3,6 +3,7 @@
 import { useState } from "react"
 import dynamic from "next/dynamic"
 import { submitContact } from "@/hooks/useProperties"
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import Input, { Textarea } from "@/components/ui/Input"
 import Button from "@/components/ui/Button"
 
@@ -12,6 +13,7 @@ export default function ContactoPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
+  const { config } = useSiteConfig()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -95,7 +97,7 @@ export default function ContactoPage() {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-dark">Dirección</p>
-                  <p className="text-gray-medium text-sm">Av. América #123, Cochabamba, Bolivia</p>
+                  <p className="text-gray-medium text-sm">{config.address}, {config.country}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -104,7 +106,7 @@ export default function ContactoPage() {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-dark">Teléfono</p>
-                  <p className="text-gray-medium text-sm">+591 4 4123456</p>
+                  <p className="text-gray-medium text-sm">{config.phone}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -113,7 +115,7 @@ export default function ContactoPage() {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-dark">WhatsApp</p>
-                  <p className="text-gray-medium text-sm">+591 70012345</p>
+                  <p className="text-gray-medium text-sm">{config.whatsapp}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -122,7 +124,7 @@ export default function ContactoPage() {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-dark">Email</p>
-                  <p className="text-gray-medium text-sm">info@inmobiliaria21.com</p>
+                  <p className="text-gray-medium text-sm">{config.email}</p>
                 </div>
               </div>
             </div>
@@ -130,7 +132,7 @@ export default function ContactoPage() {
 
           <div className="bg-white rounded-xl shadow-md p-4">
             <h3 className="text-lg font-semibold text-gray-dark mb-3">Nuestra ubicación</h3>
-            <ContactMap lat={-17.3895} lng={-66.1568} title="Inmobiliaria 21" />
+            <ContactMap lat={config.mapLat} lng={config.mapLng} title={config.companyName} />
           </div>
         </div>
       </div>

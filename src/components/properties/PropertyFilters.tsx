@@ -2,6 +2,7 @@
 
 import { PropertyFilters as Filters } from "@/hooks/useProperties"
 import { PROPERTY_TYPES, ZONES } from "@/types"
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import { Select } from "@/components/ui/Input"
 
 interface PropertyFiltersProps {
@@ -10,6 +11,8 @@ interface PropertyFiltersProps {
 }
 
 export default function PropertyFilters({ filters, onChange }: PropertyFiltersProps) {
+  const { config } = useSiteConfig()
+  const zones = config.zones.length > 0 ? config.zones : ZONES
   const update = (patch: Partial<Filters>) => onChange({ ...filters, ...patch })
 
   return (
@@ -30,7 +33,7 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
           onChange={(e) => update({ zone: e.target.value || undefined })}
           options={[
             { value: "", label: "Todas las zonas" },
-            ...ZONES.map((z) => ({ value: z, label: z })),
+            ...zones.map((z) => ({ value: z, label: z })),
           ]}
         />
         <Select

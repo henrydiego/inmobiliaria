@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
 
 const NAV_LINKS = [
   { href: "/", label: "Inicio" },
@@ -12,14 +13,15 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { config } = useSiteConfig()
 
   return (
     <nav className="bg-primary text-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <span className="text-primary-light">21</span>
-            <span>Inmobiliaria</span>
+            <span className="text-primary-light">{config.companyShort}</span>
+            <span>{config.companyName.replace(config.companyShort, "").trim()}</span>
           </Link>
 
           {/* Desktop */}

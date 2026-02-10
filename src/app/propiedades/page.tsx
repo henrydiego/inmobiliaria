@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useProperties, PropertyFilters as Filters } from "@/hooks/useProperties"
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import PropertyGrid from "@/components/properties/PropertyGrid"
 import PropertyFilters from "@/components/properties/PropertyFilters"
 import Button from "@/components/ui/Button"
@@ -9,12 +10,13 @@ import Button from "@/components/ui/Button"
 export default function PropiedadesPage() {
   const [filters, setFilters] = useState<Filters>({})
   const { properties, loading, hasMore, loadMore } = useProperties(filters)
+  const { config } = useSiteConfig()
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-dark mb-2">Propiedades en Venta</h1>
-        <p className="text-gray-medium">Encuentra tu próxima propiedad en Cochabamba</p>
+        <p className="text-gray-medium">Encuentra tu próxima propiedad en {config.city}</p>
       </div>
 
       <PropertyFilters filters={filters} onChange={setFilters} />

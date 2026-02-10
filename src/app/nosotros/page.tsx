@@ -1,11 +1,17 @@
+"use client"
+
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
+
 export default function NosotrosPage() {
+  const { config } = useSiteConfig()
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       {/* Hero */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-dark mb-4">Sobre Nosotros</h1>
         <p className="text-lg text-gray-medium max-w-2xl mx-auto">
-          Somos una empresa inmobiliaria comprometida con encontrar la propiedad ideal para cada cliente en Cochabamba.
+          Somos una empresa inmobiliaria comprometida con encontrar la propiedad ideal para cada cliente en {config.city}.
         </p>
       </div>
 
@@ -18,9 +24,7 @@ export default function NosotrosPage() {
             </svg>
           </div>
           <h2 className="text-xl font-bold text-gray-dark mb-3">Nuestra Misión</h2>
-          <p className="text-gray-medium leading-relaxed">
-            Facilitar el proceso de compra de bienes raíces, brindando un servicio profesional, transparente y personalizado. Nos esforzamos por conectar a las personas con las propiedades que se ajusten a sus necesidades y sueños.
-          </p>
+          <p className="text-gray-medium leading-relaxed">{config.mission}</p>
         </div>
         <div className="bg-white rounded-xl shadow-md p-8">
           <div className="w-12 h-12 bg-primary-light/10 text-primary-light rounded-full flex items-center justify-center mb-4">
@@ -30,9 +34,7 @@ export default function NosotrosPage() {
             </svg>
           </div>
           <h2 className="text-xl font-bold text-gray-dark mb-3">Nuestra Visión</h2>
-          <p className="text-gray-medium leading-relaxed">
-            Ser la inmobiliaria de referencia en Cochabamba, reconocida por nuestra integridad, conocimiento del mercado local y compromiso con la satisfacción de nuestros clientes.
-          </p>
+          <p className="text-gray-medium leading-relaxed">{config.vision}</p>
         </div>
       </div>
 
@@ -40,12 +42,7 @@ export default function NosotrosPage() {
       <div className="mb-16">
         <h2 className="text-2xl font-bold text-gray-dark text-center mb-8">Nuestros Valores</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { title: "Transparencia", desc: "Información clara y honesta en cada transacción." },
-            { title: "Compromiso", desc: "Acompañamos a nuestros clientes en todo el proceso." },
-            { title: "Profesionalismo", desc: "Equipo capacitado con conocimiento del mercado." },
-            { title: "Confianza", desc: "Documentación verificada y procesos seguros." },
-          ].map((v, i) => (
+          {config.values.map((v, i) => (
             <div key={i} className="bg-gray-light rounded-xl p-6 text-center">
               <h3 className="font-semibold text-gray-dark mb-2">{v.title}</h3>
               <p className="text-sm text-gray-medium">{v.desc}</p>

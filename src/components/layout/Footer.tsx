@@ -1,6 +1,11 @@
+"use client"
+
 import Link from "next/link"
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
 
 export default function Footer() {
+  const { config } = useSiteConfig()
+
   return (
     <footer className="bg-gray-dark text-gray-300">
       <div className="max-w-7xl mx-auto px-4 py-12">
@@ -8,10 +13,10 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h3 className="text-white text-xl font-bold mb-4">
-              <span className="text-primary-light">21</span> Inmobiliaria
+              <span className="text-primary-light">{config.companyShort}</span> {config.companyName.replace(config.companyShort, "").trim()}
             </h3>
             <p className="text-sm leading-relaxed">
-              Tu socio de confianza en bienes raíces. Encontramos la propiedad perfecta para ti en Cochabamba.
+              {config.slogan}. Encontramos la propiedad perfecta para ti en {config.city}.
             </p>
           </div>
 
@@ -29,16 +34,16 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Contacto</h4>
             <ul className="space-y-2 text-sm">
-              <li>Av. América #123, Cochabamba</li>
-              <li>Tel: +591 4 4123456</li>
-              <li>WhatsApp: +591 70012345</li>
-              <li>info@inmobiliaria21.com</li>
+              <li>{config.address}</li>
+              <li>Tel: {config.phone}</li>
+              <li>WhatsApp: {config.whatsapp}</li>
+              <li>{config.email}</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Inmobiliaria 21. Todos los derechos reservados.
+          © {new Date().getFullYear()} {config.companyName}. Todos los derechos reservados.
         </div>
       </div>
     </footer>

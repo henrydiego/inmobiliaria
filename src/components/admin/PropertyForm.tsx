@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Property, PROPERTY_TYPES, ZONES } from "@/types"
+import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import { createProperty, updateProperty, getProperty } from "@/hooks/useProperties"
 import Input, { Textarea, Select } from "@/components/ui/Input"
 import Button from "@/components/ui/Button"
@@ -34,7 +35,12 @@ const EMPTY: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
 
 export default function PropertyForm({ propertyId }: PropertyFormProps) {
   const router = useRouter()
-  const [form, setForm] = useState(EMPTY)
+  const { config } = useSiteConfig()
+  const zones = config.zones.length > 0 ? config.zones : ZONES
+  const [form, setForm] = useState({
+    ...EMPTY,
+    location: { ...EMPTY.location, zone: zones[0] || "Zona Norte", city: config.city, lat: config.mapLat, lng: config.mapLng },
+  })
   const [featureInput, setFeatureInput] = useState("")
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(!!propertyId)
@@ -143,7 +149,7 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
         <h2 className="text-lg font-semibold text-gray-dark">Ubicación</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input label="Dirección" required value={form.location.address} onChange={(e) => updateLocation({ address: e.target.value })} />
-          <Select label="Zona" value={form.location.zone} onChange={(e) => updateLocation({ zone: e.target.value })} options={ZONES.map((z) => ({ value: z, label: z }))} />
+          <Select label="Zona" value={form.location.zone} onChange={(e) => updateLocation({ zone: e.target.value })} options={zones.map((z) => ({ value: z, label: z }))} />
           <Input label="Ciudad" required value={form.location.city} onChange={(e) => updateLocation({ city: e.target.value })} />
           <div className="grid grid-cols-2 gap-2">
             <Input label="Latitud" type="number" step="any" value={form.location.lat} onChange={(e) => updateLocation({ lat: Number(e.target.value) })} />
