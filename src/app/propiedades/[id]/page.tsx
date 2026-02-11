@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import { getProperty, submitContact } from "@/hooks/useProperties"
 import { Property, PROPERTY_TYPES } from "@/types"
+import Link from "next/link"
 import { formatPrice, formatArea, getWhatsAppUrl } from "@/lib/utils"
 import PropertyGallery from "@/components/properties/PropertyGallery"
 import Button from "@/components/ui/Button"
@@ -86,9 +87,20 @@ export default function PropertyDetailPage() {
           <div>
             <div className="flex flex-wrap items-start justify-between gap-4 mb-2">
               <h1 className="text-2xl md:text-3xl font-bold text-gray-dark">{property.title}</h1>
-              <span className="text-2xl md:text-3xl font-bold text-primary-light">
-                {formatPrice(property.price, property.currency)}
-              </span>
+              <div className="text-right">
+                <span className="text-2xl md:text-3xl font-bold text-primary-light block">
+                  {formatPrice(property.price, property.currency)}
+                </span>
+                <Link
+                  href={`/simulador?precio=${property.price}`}
+                  className="inline-flex items-center gap-1 text-sm text-primary-light hover:underline mt-1"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                  Simular crédito
+                </Link>
+              </div>
             </div>
             <p className="text-gray-medium flex items-center gap-1">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
