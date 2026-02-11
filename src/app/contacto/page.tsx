@@ -3,6 +3,7 @@
 import { useState } from "react"
 import dynamic from "next/dynamic"
 import { submitContact } from "@/hooks/useProperties"
+import { sendContactNotification } from "@/lib/emailjs"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import Input, { Textarea } from "@/components/ui/Input"
 import Button from "@/components/ui/Button"
@@ -20,6 +21,7 @@ export default function ContactoPage() {
     setSending(true)
     try {
       await submitContact(form)
+      sendContactNotification(form)
       setSent(true)
       setForm({ name: "", email: "", phone: "", message: "" })
     } catch {

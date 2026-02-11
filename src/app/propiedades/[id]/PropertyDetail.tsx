@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 import Link from "next/link"
 import Image from "next/image"
 import { getProperty, submitContact } from "@/hooks/useProperties"
+import { sendContactNotification } from "@/lib/emailjs"
 import { Property, PROPERTY_TYPES } from "@/types"
 import { formatPrice, formatArea, getWhatsAppUrl } from "@/lib/utils"
 import PropertyGallery from "@/components/properties/PropertyGallery"
@@ -43,6 +44,7 @@ export default function PropertyDetail({ id }: { id: string }) {
         propertyId: property.id,
         propertyTitle: property.title,
       })
+      sendContactNotification({ ...formData, propertyTitle: property.title })
       setSent(true)
       setFormData({ name: "", email: "", phone: "", message: "" })
     } catch {

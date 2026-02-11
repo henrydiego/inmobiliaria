@@ -51,6 +51,29 @@ export interface Role {
   isAdmin: boolean
 }
 
+export interface Post {
+  id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  imageUrl: string
+  author: string
+  published: boolean
+  createdAt: Timestamp
+  updatedAt: Timestamp
+}
+
+export interface Testimonial {
+  id: string
+  name: string
+  text: string
+  imageUrl?: string
+  rating: number
+  active: boolean
+  createdAt: Timestamp
+}
+
 export const PROPERTY_TYPES: Record<Property["type"], string> = {
   casa: "Casa",
   departamento: "Departamento",

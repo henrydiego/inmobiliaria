@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useFeaturedProperties } from "@/hooks/useProperties"
+import { useActiveTestimonials } from "@/hooks/useTestimonials"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import PropertyGrid from "@/components/properties/PropertyGrid"
 import Button from "@/components/ui/Button"
@@ -14,6 +15,7 @@ const ICONS = [
 
 export default function HomePage() {
   const { properties, loading } = useFeaturedProperties()
+  const { testimonials } = useActiveTestimonials()
   const { config } = useSiteConfig()
 
   return (
@@ -78,6 +80,36 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Testimonials */}
+      {testimonials.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-dark mb-2">Lo que dicen nuestros clientes</h2>
+            <p className="text-gray-medium">Testimonios de quienes confiaron en nosotros</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((t) => (
+              <div key={t.id} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-center gap-3 mb-4">
+                  {t.imageUrl ? (
+                    <img src={t.imageUrl} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-primary-light/10 flex items-center justify-center">
+                      <span className="text-primary-light font-bold text-lg">{t.name[0]}</span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-semibold text-gray-dark">{t.name}</p>
+                    <div className="text-yellow-400 text-sm">{"★".repeat(t.rating)}{"☆".repeat(5 - t.rating)}</div>
+                  </div>
+                </div>
+                <p className="text-gray-medium text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="bg-primary py-16">

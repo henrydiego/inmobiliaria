@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/nosotros", label: "Nosotros" },
   { href: "/contacto", label: "Contacto" },
   { href: "/simulador", label: "Simulador" },
+  { href: "/blog", label: "Blog" },
 ]
 
 export default function Navbar() {
