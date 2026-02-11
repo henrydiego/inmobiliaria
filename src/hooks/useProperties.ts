@@ -19,6 +19,7 @@ export interface PropertyFilters {
   minBedrooms?: number
   minArea?: number
   sortBy?: "price_asc" | "price_desc" | "newest"
+  search?: string
 }
 
 export function useProperties(filters?: PropertyFilters) {
@@ -59,11 +60,21 @@ export function useProperties(filters?: PropertyFilters) {
       const snapshot = await getDocs(q)
       const props = snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Property))
 
-      // Client-side price filtering (Firestore can't combine range on different fields)
+      // Client-side filtering (Firestore can't combine range on different fields)
       let filtered = props
       if (filters?.minPrice) filtered = filtered.filter((p) => p.price >= filters.minPrice!)
       if (filters?.maxPrice) filtered = filtered.filter((p) => p.price <= filters.maxPrice!)
       if (filters?.minArea) filtered = filtered.filter((p) => p.area >= filters.minArea!)
+      if (filters?.search) {
+        const term = filters.search.toLowerCase()
+        filtered = filtered.filter((p) =>
+          p.title.toLowerCase().includes(term) ||
+          p.description.toLowerCase().includes(term) ||
+          p.location.zone.toLowerCase().includes(term) ||
+          p.location.address.toLowerCase().includes(term) ||
+          p.location.city.toLowerCase().includes(term)
+        )
+      }
 
       setProperties(filtered)
       setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null)

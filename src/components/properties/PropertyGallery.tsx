@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 
 interface PropertyGalleryProps {
   images: string[]
@@ -22,10 +23,13 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
     <div>
       {/* Main image */}
       <div className="relative w-full h-96 md:h-[500px] rounded-xl overflow-hidden mb-3">
-        <img
+        <Image
           src={images[current]}
           alt={`${title} - Foto ${current + 1}`}
-          className="w-full h-full object-cover"
+          fill
+          sizes="(max-width: 1024px) 100vw, 66vw"
+          className="object-cover"
+          priority={current === 0}
         />
         {images.length > 1 && (
           <>
@@ -59,11 +63,17 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
+              className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
                 i === current ? "border-primary-light" : "border-transparent opacity-70 hover:opacity-100"
               }`}
             >
-              <img src={img} alt={`Miniatura ${i + 1}`} className="w-full h-full object-cover" />
+              <Image
+                src={img}
+                alt={`Miniatura ${i + 1}`}
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
             </button>
           ))}
         </div>

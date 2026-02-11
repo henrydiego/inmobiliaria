@@ -1,6 +1,8 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Property, PROPERTY_TYPES } from "@/types"
 import { formatPrice, formatArea } from "@/lib/utils"
+import FavoriteButton from "@/components/ui/FavoriteButton"
 
 interface PropertyCardProps {
   property: Property
@@ -14,17 +16,20 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
         {/* Image */}
         <div className="relative h-56 overflow-hidden">
-          <img
+          <Image
             src={mainImage}
             alt={property.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
           <div className="absolute top-3 left-3">
             <span className="bg-primary-light text-white text-xs font-semibold px-3 py-1 rounded-full">
               {PROPERTY_TYPES[property.type]}
             </span>
           </div>
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 flex items-center gap-2">
+            <FavoriteButton propertyId={property.id} />
             <span className="bg-white/90 text-primary font-bold px-3 py-1 rounded-full text-sm">
               {formatPrice(property.price, property.currency)}
             </span>
