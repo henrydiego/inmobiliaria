@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 import { createPost, updatePost, getPostById } from "@/hooks/useBlog"
 import { uploadImage } from "@/lib/cloudinary"
 import Input, { Textarea } from "@/components/ui/Input"
@@ -51,7 +52,7 @@ export default function BlogForm({ postId, onSaved }: BlogFormProps) {
       const url = await uploadImage(file)
       setForm((f) => ({ ...f, imageUrl: url }))
     } catch {
-      alert("Error al subir imagen")
+      toast.error("Error al subir imagen")
     } finally {
       setUploading(false)
     }
@@ -68,7 +69,7 @@ export default function BlogForm({ postId, onSaved }: BlogFormProps) {
       }
       onSaved()
     } catch {
-      alert("Error al guardar")
+      toast.error("Error al guardar")
     } finally {
       setSaving(false)
     }

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 import { getAllTestimonials, createTestimonial, updateTestimonial, deleteTestimonial } from "@/hooks/useTestimonials"
 import { uploadImage } from "@/lib/cloudinary"
 import { Testimonial } from "@/types"
@@ -45,7 +46,7 @@ export default function AdminTestimoniosPage() {
       const url = await uploadImage(file)
       setForm((f) => ({ ...f, imageUrl: url }))
     } catch {
-      alert("Error al subir imagen")
+      toast.error("Error al subir imagen")
     } finally {
       setUploading(false)
     }
@@ -63,7 +64,7 @@ export default function AdminTestimoniosPage() {
       resetForm()
       load()
     } catch {
-      alert("Error al guardar")
+      toast.error("Error al guardar")
     } finally {
       setSaving(false)
     }

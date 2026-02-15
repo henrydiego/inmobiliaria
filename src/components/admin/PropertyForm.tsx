@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 import { Property, PROPERTY_TYPES, ZONES } from "@/types"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import { createProperty, updateProperty, getProperty } from "@/hooks/useProperties"
@@ -85,7 +86,7 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       }
       router.push("/admin/propiedades")
     } catch {
-      alert("Error al guardar la propiedad")
+      toast.error("Error al guardar la propiedad")
     } finally {
       setSaving(false)
     }

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useId } from "react"
+import toast from "react-hot-toast"
 import { uploadImage } from "@/lib/cloudinary"
 
 interface ImageUploaderProps {
@@ -20,7 +21,7 @@ export default function ImageUploader({ images, onChange, label = "Imágenes", m
     if (!files || files.length === 0) return
 
     if (maxImages && images.length + files.length > maxImages) {
-      alert(`Máximo ${maxImages} imágenes permitidas.`)
+      toast.error(`Máximo ${maxImages} imágenes permitidas`)
       if (inputRef.current) inputRef.current.value = ""
       return
     }
@@ -34,7 +35,7 @@ export default function ImageUploader({ images, onChange, label = "Imágenes", m
       }
       onChange([...images, ...urls])
     } catch {
-      alert("Error al subir imágenes. Verifica la configuración de Cloudinary.")
+      toast.error("Error al subir imágenes")
     } finally {
       setUploading(false)
       if (inputRef.current) inputRef.current.value = ""

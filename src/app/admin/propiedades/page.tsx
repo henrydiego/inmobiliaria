@@ -76,7 +76,7 @@ export default function AdminPropertiesPage() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       {p.imageUrls?.[0] && (
-                        <img src={p.imageUrls[0]} alt="" className="w-12 h-12 rounded-lg object-cover" />
+                        <img src={p.imageUrls[0]} alt={p.title} className="w-12 h-12 rounded-lg object-cover" />
                       )}
                       <div>
                         <p className="font-medium text-foreground">{p.title}</p>

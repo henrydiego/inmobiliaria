@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import { SiteConfig } from "@/types"
 import { uploadImage } from "@/lib/cloudinary"
@@ -29,7 +30,7 @@ export default function ConfiguracionPage() {
       await saveConfig(form)
       setSaved(true)
     } catch {
-      alert("Error al guardar la configuración")
+      toast.error("Error al guardar la configuración")
     } finally {
       setSaving(false)
     }
@@ -65,7 +66,7 @@ export default function ConfiguracionPage() {
       const url = await uploadImage(file)
       update({ heroImage: url })
     } catch {
-      alert("Error al subir imagen")
+      toast.error("Error al subir imagen")
     } finally {
       setUploadingHero(false)
     }

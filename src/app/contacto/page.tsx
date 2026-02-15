@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import dynamic from "next/dynamic"
+import toast from "react-hot-toast"
 import { submitContact } from "@/hooks/useProperties"
 import { sendContactNotification } from "@/lib/emailjs"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
@@ -28,7 +29,7 @@ export default function ContactoPage() {
         console.error("Email notification failed:", err)
       )
     } catch {
-      alert("Error al enviar. Intenta nuevamente.")
+      toast.error("Error al enviar. Intenta nuevamente.")
     } finally {
       setSending(false)
     }

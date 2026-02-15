@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import Image from "next/image"
+import toast from "react-hot-toast"
 import { getProperty, submitContact } from "@/hooks/useProperties"
 import { sendContactNotification } from "@/lib/emailjs"
 import { Property, PROPERTY_TYPES } from "@/types"
@@ -48,7 +49,7 @@ export default function PropertyDetail({ id }: { id: string }) {
       setSent(true)
       setFormData({ name: "", email: "", phone: "", message: "" })
     } catch {
-      alert("Error al enviar. Intenta nuevamente.")
+      toast.error("Error al enviar. Intenta nuevamente.")
     } finally {
       setSending(false)
     }
