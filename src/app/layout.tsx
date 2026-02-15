@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
@@ -11,9 +11,22 @@ const inter = Inter({
   variable: "--font-inter",
 })
 
+export const viewport: Viewport = {
+  themeColor: "#2563eb",
+}
+
 export const metadata: Metadata = {
   title: "Inmobiliaria 21 | Bienes Raíces en La Paz",
   description: "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Inmobiliaria 21",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 }
 
 export default function RootLayout({
@@ -24,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        <link rel="apple-touch-icon" href="/icons/icon.svg" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

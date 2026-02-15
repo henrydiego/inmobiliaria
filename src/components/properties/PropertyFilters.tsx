@@ -62,14 +62,23 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
           ]}
         />
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-foreground">Precio máx. (USD)</label>
-          <input
-            type="number"
-            placeholder="Sin límite"
-            value={filters.maxPrice || ""}
-            onChange={(e) => update({ maxPrice: e.target.value ? parseInt(e.target.value) : undefined })}
-            className="w-full px-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2"
-          />
+          <label className="block text-sm font-medium text-foreground">Precio (USD)</label>
+          <div className="flex gap-2">
+            <input
+              type="number"
+              placeholder="Mín"
+              value={filters.minPrice || ""}
+              onChange={(e) => update({ minPrice: e.target.value ? parseInt(e.target.value) : undefined })}
+              className="w-full px-3 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2"
+            />
+            <input
+              type="number"
+              placeholder="Máx"
+              value={filters.maxPrice || ""}
+              onChange={(e) => update({ maxPrice: e.target.value ? parseInt(e.target.value) : undefined })}
+              className="w-full px-3 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2"
+            />
+          </div>
         </div>
         <Select
           label="Ordenar por"

@@ -1,0 +1,24 @@
+{
+  "name": "Inmobiliaria 21 - Bienes Raíces",
+  "short_name": "Inmobiliaria 21",
+  "description": "Encuentra tu propiedad ideal. Casas, departamentos, terrenos y más.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8fa",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

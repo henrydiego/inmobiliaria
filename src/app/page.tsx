@@ -5,8 +5,22 @@ import Image from "next/image"
 import { useFeaturedProperties } from "@/hooks/useProperties"
 import { useActiveTestimonials } from "@/hooks/useTestimonials"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
+import { useScrollAnimation } from "@/hooks/useScrollAnimation"
+import { useCountAnimation } from "@/hooks/useCountAnimation"
 import PropertyGrid from "@/components/properties/PropertyGrid"
 import Button from "@/components/ui/Button"
+
+function StatCounter({ target, label, suffix = "" }: { target: number; label: string; suffix?: string }) {
+  const { count, ref } = useCountAnimation(target)
+  return (
+    <div ref={ref} className="text-center">
+      <p className="text-4xl md:text-5xl font-bold text-accent tracking-tight">
+        {count}{suffix}
+      </p>
+      <p className="text-muted text-sm font-light mt-2">{label}</p>
+    </div>
+  )
+}
 
 const ICONS = [
   "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
@@ -18,9 +32,10 @@ export default function HomePage() {
   const { properties, loading } = useFeaturedProperties()
   const { testimonials } = useActiveTestimonials()
   const { config } = useSiteConfig()
+  const scrollRef = useScrollAnimation()
 
   return (
-    <>
+    <div ref={scrollRef}>
       {/* Hero */}
       <section className={`relative min-h-[85vh] flex items-center overflow-hidden ${config.heroImage ? "" : "bg-background"}`}>
         {/* Background image */}
@@ -69,7 +84,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Properties */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
+      <section className="max-w-7xl mx-auto px-4 py-24 scroll-animate">
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Selección</p>
@@ -87,8 +102,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Stats */}
+      <section className="max-w-5xl mx-auto px-4 py-20 scroll-animate">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <StatCounter target={properties.length || 10} label="Propiedades disponibles" suffix="+" />
+          <StatCounter target={config.zones.length || 8} label="Zonas cubiertas" />
+          <StatCounter target={12} label="Años de experiencia" />
+          <StatCounter target={350} label="Clientes satisfechos" suffix="+" />
+        </div>
+      </section>
+
       {/* Why Choose Us - Bento Grid */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
+      <section className="max-w-7xl mx-auto px-4 py-24 scroll-animate">
         <div className="mb-12">
           <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Ventajas</p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">¿Por qué elegirnos?</h2>
@@ -131,7 +156,7 @@ export default function HomePage() {
 
       {/* Testimonials */}
       {testimonials.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 py-24">
+        <section className="max-w-7xl mx-auto px-4 py-24 scroll-animate">
           <div className="mb-12">
             <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Testimonios</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">Lo que dicen nuestros clientes</h2>
@@ -165,7 +190,7 @@ export default function HomePage() {
       )}
 
       {/* CTA - warm dark instead of blue */}
-      <section className="max-w-7xl mx-auto px-4 pb-24">
+      <section className="max-w-7xl mx-auto px-4 pb-24 scroll-animate">
         <div className="bg-foreground rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
           <div className="relative">
@@ -181,6 +206,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   )
 }
