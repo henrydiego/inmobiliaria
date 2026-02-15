@@ -1,13 +1,21 @@
 "use client"
 
-import { useState, lazy, Suspense } from "react"
+import { useState } from "react"
+import dynamic from "next/dynamic"
 import { useProperties, PropertyFilters as Filters } from "@/hooks/useProperties"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import PropertyGrid from "@/components/properties/PropertyGrid"
 import PropertyFilters from "@/components/properties/PropertyFilters"
 import Button from "@/components/ui/Button"
 
-const PropertiesMapView = lazy(() => import("@/components/properties/PropertiesMapView"))
+const PropertiesMapView = dynamic(() => import("@/components/properties/PropertiesMapView"), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-surface border border-border rounded-2xl h-[500px] flex items-center justify-center">
+      <div className="text-muted">Cargando mapa...</div>
+    </div>
+  ),
+})
 
 type ViewMode = "grid" | "map"
 
@@ -59,13 +67,7 @@ export default function PropiedadesPage() {
           )}
         </>
       ) : (
-        <Suspense fallback={
-          <div className="bg-surface border border-border rounded-2xl h-[500px] flex items-center justify-center">
-            <div className="text-muted">Cargando mapa...</div>
-          </div>
-        }>
-          <PropertiesMapView properties={properties} />
-        </Suspense>
+        <PropertiesMapView properties={properties} />
       )}
     </div>
   )
