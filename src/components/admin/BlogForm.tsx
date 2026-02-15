@@ -74,10 +74,10 @@ export default function BlogForm({ postId, onSaved }: BlogFormProps) {
     }
   }
 
-  if (loading) return <div className="text-center py-8 text-gray-medium">Cargando...</div>
+  if (loading) return <div className="text-center py-8 text-muted">Cargando...</div>
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 space-y-5">
+    <form onSubmit={handleSubmit} className="bg-surface border border-border rounded-2xl p-6 space-y-5">
       <Input
         label="Título"
         required
@@ -114,17 +114,17 @@ export default function BlogForm({ postId, onSaved }: BlogFormProps) {
 
       {/* Image */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">Imagen de portada</label>
+        <label className="block text-sm font-medium text-foreground">Imagen de portada</label>
         <input
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          className="text-sm"
+          className="text-sm text-foreground"
           disabled={uploading}
         />
-        {uploading && <p className="text-sm text-gray-medium">Subiendo imagen...</p>}
+        {uploading && <p className="text-sm text-muted">Subiendo imagen...</p>}
         {form.imageUrl && (
-          <img src={form.imageUrl} alt="Preview" className="w-full max-w-md h-48 object-cover rounded-lg mt-2" />
+          <img src={form.imageUrl} alt="Preview" className="w-full max-w-md h-48 object-cover rounded-xl mt-2" />
         )}
       </div>
 
@@ -134,9 +134,9 @@ export default function BlogForm({ postId, onSaved }: BlogFormProps) {
           type="checkbox"
           checked={form.published}
           onChange={(e) => setForm({ ...form, published: e.target.checked })}
-          className="w-4 h-4 rounded border-gray-300 text-primary-light focus:ring-primary-light"
+          className="w-4 h-4 rounded border-border accent-accent"
         />
-        <span className="text-sm font-medium text-gray-700">Publicar artículo</span>
+        <span className="text-sm font-medium text-foreground">Publicar artículo</span>
       </label>
 
       <div className="flex gap-3">

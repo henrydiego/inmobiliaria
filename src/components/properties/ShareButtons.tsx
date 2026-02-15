@@ -46,7 +46,7 @@ export default function ShareButtons({ url, title, description }: ShareButtonsPr
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-medium mr-1">Compartir:</span>
+      <span className="text-sm text-muted mr-1">Compartir:</span>
 
       {/* WhatsApp */}
       <a
@@ -77,7 +77,7 @@ export default function ShareButtons({ url, title, description }: ShareButtonsPr
       {/* Copy Link */}
       <button
         onClick={copyLink}
-        className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-dark transition-colors"
+        className="p-2 rounded-full bg-surface-2 hover:bg-border text-foreground transition-colors"
         aria-label="Copiar enlace"
       >
         {copied ? (
@@ -95,7 +95,7 @@ export default function ShareButtons({ url, title, description }: ShareButtonsPr
       {typeof navigator !== "undefined" && "share" in navigator && (
         <button
           onClick={handleShare}
-          className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-dark transition-colors"
+          className="p-2 rounded-full bg-surface-2 hover:bg-border text-foreground transition-colors"
           aria-label="Compartir"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

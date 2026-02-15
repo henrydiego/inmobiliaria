@@ -25,13 +25,13 @@ export default function BlogPostPage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="animate-pulse space-y-6">
-          <div className="h-64 bg-gray-200 rounded-xl" />
-          <div className="h-8 bg-gray-200 rounded w-3/4" />
-          <div className="h-4 bg-gray-200 rounded w-1/4" />
+          <div className="h-64 bg-surface-2 rounded-3xl" />
+          <div className="h-8 bg-surface-2 rounded w-3/4" />
+          <div className="h-4 bg-surface-2 rounded w-1/4" />
           <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded" />
-            <div className="h-4 bg-gray-200 rounded" />
-            <div className="h-4 bg-gray-200 rounded w-5/6" />
+            <div className="h-4 bg-surface-2 rounded" />
+            <div className="h-4 bg-surface-2 rounded" />
+            <div className="h-4 bg-surface-2 rounded w-5/6" />
           </div>
         </div>
       </div>
@@ -41,9 +41,9 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold text-gray-dark mb-4">Artículo no encontrado</h1>
-        <p className="text-gray-medium mb-4">El artículo que buscas no existe o fue removido.</p>
-        <Link href="/blog" className="text-primary-light hover:underline">Volver al blog</Link>
+        <h1 className="text-2xl font-bold text-foreground mb-4">Artículo no encontrado</h1>
+        <p className="text-muted mb-4">El artículo que buscas no existe o fue removido.</p>
+        <Link href="/blog" className="text-accent hover:underline">Volver al blog</Link>
       </div>
     )
   }
@@ -51,7 +51,7 @@ export default function BlogPostPage() {
   return (
     <article className="max-w-3xl mx-auto px-4 py-12">
       {/* Back link */}
-      <Link href="/blog" className="inline-flex items-center gap-1 text-sm text-primary-light hover:underline mb-6">
+      <Link href="/blog" className="inline-flex items-center gap-1 text-sm text-accent hover:underline mb-6">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
@@ -60,7 +60,7 @@ export default function BlogPostPage() {
 
       {/* Cover image */}
       {post.imageUrl && (
-        <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden mb-8">
+        <div className="relative w-full h-64 md:h-96 rounded-3xl overflow-hidden mb-8">
           <Image
             src={post.imageUrl}
             alt={post.title}
@@ -74,24 +74,24 @@ export default function BlogPostPage() {
 
       {/* Header */}
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-dark mb-4">{post.title}</h1>
-        <div className="flex items-center gap-3 text-sm text-gray-medium">
-          <span className="font-medium text-gray-dark">{post.author}</span>
+        <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">{post.title}</h1>
+        <div className="flex items-center gap-3 text-sm text-muted">
+          <span className="font-medium text-foreground">{post.author}</span>
           <span>·</span>
           <span>{post.createdAt?.toDate?.()?.toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" })}</span>
         </div>
       </header>
 
       {/* Content */}
-      <div className="prose prose-lg max-w-none text-gray-dark leading-relaxed whitespace-pre-line">
+      <div className="text-foreground leading-relaxed whitespace-pre-line text-base">
         {post.content}
       </div>
 
       {/* Footer */}
-      <div className="mt-12 pt-8 border-t border-gray-200">
+      <div className="mt-12 pt-8 border-t border-border">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1 text-primary-light hover:underline font-medium"
+          className="inline-flex items-center gap-1 text-accent hover:underline font-medium"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

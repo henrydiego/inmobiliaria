@@ -20,88 +20,122 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-primary min-h-[600px] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent/20" />
-        <div className="relative max-w-7xl mx-auto px-4 py-24">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight text-white">
-            {config.heroTitle}<br />
-            <span className="text-accent-light">{config.heroHighlight}</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl font-light">
-            {config.heroSubtitle}
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/propiedades">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90">Ver propiedades</Button>
-            </Link>
-            <Link href="/contacto">
-              <Button variant="ghost" size="lg" className="border-white/30 text-white hover:bg-white/10">
-                Contáctanos
-              </Button>
-            </Link>
+      {/* Hero - clean, no heavy bg */}
+      <section className="relative min-h-[85vh] flex items-center bg-background overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
+        <div className="relative max-w-7xl mx-auto px-4 py-24 w-full">
+          <div className="max-w-3xl">
+            <p className="text-accent font-medium text-sm tracking-widest uppercase mb-4">
+              {config.companyName}
+            </p>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[1.05] tracking-tight text-foreground">
+              {config.heroTitle}<br />
+              <span className="text-accent">{config.heroHighlight}</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted mb-10 max-w-xl font-light leading-relaxed">
+              {config.heroSubtitle}
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/propiedades">
+                <Button size="lg">Ver propiedades</Button>
+              </Link>
+              <Link href="/contacto">
+                <Button variant="ghost" size="lg">
+                  Contáctanos
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured Properties */}
       <section className="max-w-7xl mx-auto px-4 py-24">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">Propiedades Destacadas</h2>
-          <p className="text-muted font-light text-lg">Las mejores opciones seleccionadas para ti</p>
+        <div className="flex items-end justify-between mb-12">
+          <div>
+            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Selección</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">Propiedades Destacadas</h2>
+          </div>
+          <Link href="/propiedades" className="text-accent hover:text-accent-dark text-sm font-medium hidden md:block">
+            Ver todas &rarr;
+          </Link>
         </div>
         <PropertyGrid properties={properties} loading={loading} />
-        <div className="text-center mt-12">
+        <div className="text-center mt-12 md:hidden">
           <Link href="/propiedades">
-            <Button variant="ghost" size="lg">Ver todas las propiedades</Button>
+            <Button variant="ghost">Ver todas las propiedades</Button>
           </Link>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="bg-surface-2 py-24">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">¿Por qué elegirnos?</h2>
-            <p className="text-muted font-light text-lg">Tu mejor aliado en bienes raíces</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {config.whyChooseUs.map((item, i) => (
-              <div key={i} className="bg-surface border border-border rounded-2xl p-8 text-center hover:-translate-y-1 transition-all duration-300">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/10 text-accent rounded-2xl mb-5">
-                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={ICONS[i % ICONS.length]} />
-                  </svg>
+      {/* Why Choose Us - Bento Grid */}
+      <section className="max-w-7xl mx-auto px-4 py-24">
+        <div className="mb-12">
+          <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Ventajas</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">¿Por qué elegirnos?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {config.whyChooseUs.map((item, i) => {
+            const isLarge = i === 0
+            return (
+              <div
+                key={i}
+                className={`group relative bg-surface border border-border rounded-3xl p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+                  isLarge ? "md:col-span-2 md:row-span-2 md:p-12" : ""
+                }`}
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative">
+                  <div className={`inline-flex items-center justify-center bg-accent/10 text-accent rounded-2xl mb-5 ${
+                    isLarge ? "w-16 h-16" : "w-12 h-12"
+                  }`}>
+                    <svg className={isLarge ? "w-8 h-8" : "w-6 h-6"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={ICONS[i % ICONS.length]} />
+                    </svg>
+                  </div>
+                  <h3 className={`font-bold text-foreground mb-3 tracking-tight ${
+                    isLarge ? "text-2xl" : "text-lg"
+                  }`}>
+                    {item.title}
+                  </h3>
+                  <p className={`text-muted font-light leading-relaxed ${
+                    isLarge ? "text-base max-w-md" : "text-sm"
+                  }`}>
+                    {item.desc}
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2 tracking-tight">{item.title}</h3>
-                <p className="text-muted text-sm font-light leading-relaxed">{item.desc}</p>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
       </section>
 
       {/* Testimonials */}
       {testimonials.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-24">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">Lo que dicen nuestros clientes</h2>
-            <p className="text-muted font-light text-lg">Testimonios de quienes confiaron en nosotros</p>
+          <div className="mb-12">
+            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Testimonios</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">Lo que dicen nuestros clientes</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((t) => (
-              <div key={t.id} className="bg-surface border border-border rounded-2xl p-7 hover:-translate-y-1 transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {testimonials.map((t, i) => (
+              <div
+                key={t.id}
+                className={`bg-surface border border-border rounded-3xl p-7 ${
+                  i === 0 ? "lg:col-span-2" : ""
+                }`}
+              >
                 <div className="flex items-center gap-3 mb-5">
                   {t.imageUrl ? (
-                    <img src={t.imageUrl} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                    <img src={t.imageUrl} alt={t.name} className="w-11 h-11 rounded-full object-cover" />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                      <span className="text-accent font-semibold text-lg">{t.name[0]}</span>
+                    <div className="w-11 h-11 rounded-full bg-accent/10 flex items-center justify-center">
+                      <span className="text-accent font-semibold">{t.name[0]}</span>
                     </div>
                   )}
                   <div>
-                    <p className="font-semibold text-foreground tracking-tight">{t.name}</p>
-                    <div className="text-amber-400 text-sm">{"★".repeat(t.rating)}{"☆".repeat(5 - t.rating)}</div>
+                    <p className="font-semibold text-foreground text-sm tracking-tight">{t.name}</p>
+                    <div className="text-accent text-xs">{"★".repeat(t.rating)}{"☆".repeat(5 - t.rating)}</div>
                   </div>
                 </div>
                 <p className="text-muted text-sm leading-relaxed font-light">&ldquo;{t.text}&rdquo;</p>
@@ -111,18 +145,21 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* CTA */}
-      <section className="bg-primary py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white tracking-tight">¿Buscas algo específico?</h2>
-          <p className="text-white/60 mb-10 text-lg font-light">
-            Cuéntanos qué tipo de propiedad necesitas y te ayudaremos a encontrarla.
-          </p>
-          <Link href="/contacto">
-            <Button size="lg" className="bg-accent hover:bg-accent-light text-white">
-              Enviar consulta
-            </Button>
-          </Link>
+      {/* CTA - warm dark instead of blue */}
+      <section className="max-w-7xl mx-auto px-4 pb-24">
+        <div className="bg-foreground rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
+          <div className="relative">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-background tracking-tight">¿Buscas algo específico?</h2>
+            <p className="text-background/50 mb-10 text-lg font-light max-w-xl mx-auto">
+              Cuéntanos qué tipo de propiedad necesitas y te ayudaremos a encontrarla.
+            </p>
+            <Link href="/contacto">
+              <Button size="lg" className="bg-accent hover:bg-accent-light text-white">
+                Enviar consulta
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </>

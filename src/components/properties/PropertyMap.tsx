@@ -25,7 +25,7 @@ export default function PropertyMap({ lat, lng, title }: PropertyMapProps) {
     }).addTo(map)
 
     const icon = L.divIcon({
-      html: `<div style="background:#3B82F6;width:24px;height:24px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
+      html: `<div style="background:#2563eb;width:24px;height:24px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
       iconSize: [24, 24],
       iconAnchor: [12, 12],
       className: "",
@@ -49,7 +49,7 @@ export default function PropertyMap({ lat, lng, title }: PropertyMapProps) {
         href={googleMapsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+        className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-surface border border-border rounded-xl text-sm font-medium text-foreground hover:bg-surface-2 transition-colors"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="#EA4335"/>

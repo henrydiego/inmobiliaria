@@ -87,10 +87,11 @@ function SimuladorContent() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <div className="bg-primary py-16">
+      <div className="py-16 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-white tracking-tight">Simulador de Crédito</h1>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto font-light">
+          <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">Herramienta</p>
+          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-foreground tracking-tight">Simulador de Crédito</h1>
+          <p className="text-muted text-lg max-w-2xl mx-auto font-light">
             Calcula tu cuota mensual estimada y planifica la compra de tu inmueble
           </p>
         </div>
@@ -219,7 +220,7 @@ function SimuladorContent() {
                       </div>
                       <div className="w-full bg-surface-2 rounded-full h-3">
                         <div
-                          className="bg-primary h-3 rounded-full transition-all duration-500"
+                          className="bg-foreground h-3 rounded-full transition-all duration-500"
                           style={{ width: `${capitalPercent}%` }}
                         />
                       </div>

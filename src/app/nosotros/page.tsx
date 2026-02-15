@@ -52,15 +52,18 @@ export default function NosotrosPage() {
       </div>
 
       {/* Contact CTA */}
-      <div className="bg-primary rounded-2xl p-10 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white tracking-tight">¿Tienes preguntas?</h2>
-        <p className="text-white/60 mb-8 font-light">Estamos aquí para ayudarte. Contáctanos hoy mismo.</p>
-        <a
-          href="/contacto"
-          className="inline-block bg-accent hover:bg-accent-light text-white font-medium px-7 py-3 rounded-full transition-colors duration-200"
-        >
-          Ir a contacto
-        </a>
+      <div className="bg-foreground rounded-3xl p-10 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
+        <div className="relative">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-background tracking-tight">¿Tienes preguntas?</h2>
+          <p className="text-background/50 mb-8 font-light">Estamos aquí para ayudarte. Contáctanos hoy mismo.</p>
+          <a
+            href="/contacto"
+            className="inline-block bg-accent hover:bg-accent-light text-white font-medium px-7 py-3 rounded-full transition-colors duration-200"
+          >
+            Ir a contacto
+          </a>
+        </div>
       </div>
     </div>
   )

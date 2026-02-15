@@ -61,7 +61,7 @@ export default function SimilarProperties({ currentId, type, zone }: SimilarProp
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-bold text-gray-dark mb-6">Propiedades similares</h2>
+      <h2 className="text-2xl font-bold text-foreground mb-6">Propiedades similares</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {properties.map((property) => (
           <PropertyCard key={property.id} property={property} />
