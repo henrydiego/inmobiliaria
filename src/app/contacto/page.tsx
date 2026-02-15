@@ -21,9 +21,12 @@ export default function ContactoPage() {
     setSending(true)
     try {
       await submitContact(form)
-      sendContactNotification(form)
       setSent(true)
       setForm({ name: "", email: "", phone: "", message: "" })
+      // Send email notification in background
+      sendContactNotification(form).catch((err) =>
+        console.error("Email notification failed:", err)
+      )
     } catch {
       alert("Error al enviar. Intenta nuevamente.")
     } finally {
