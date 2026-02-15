@@ -17,10 +17,10 @@ export default function AdminSidebar() {
   const { logout } = useAuth()
 
   return (
-    <aside className="w-64 bg-gray-dark min-h-screen p-4 flex flex-col">
+    <aside className="w-64 bg-surface border-r border-border min-h-screen p-4 flex flex-col">
       <div className="mb-8">
-        <Link href="/admin" className="text-white font-bold text-xl">
-          <span className="text-primary-light">21</span> Admin
+        <Link href="/admin" className="text-foreground font-bold text-xl">
+          <span className="text-accent">21</span> Admin
         </Link>
       </div>
 
@@ -31,12 +31,12 @@ export default function AdminSidebar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive ? "bg-primary-light text-white" : "text-gray-400 hover:text-white hover:bg-gray-700"
+              className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${
+                isActive ? "bg-accent text-white" : "text-muted hover:text-foreground hover:bg-surface-2"
               }`}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={link.icon} />
               </svg>
               {link.label}
             </Link>
@@ -44,19 +44,19 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-gray-700 pt-4 space-y-2">
-        <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700 transition-colors">
+      <div className="border-t border-border pt-4 space-y-1">
+        <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-muted hover:text-foreground hover:bg-surface-2 transition-colors duration-200">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
           Ver sitio
         </Link>
         <button
           onClick={() => logout()}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700 transition-colors w-full"
+          className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-muted hover:text-foreground hover:bg-surface-2 transition-colors duration-200 w-full"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           Cerrar sesión
         </button>

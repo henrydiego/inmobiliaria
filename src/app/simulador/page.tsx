@@ -85,22 +85,22 @@ function SimuladorContent() {
     : ""
 
   return (
-    <div className="bg-gray-light min-h-screen">
+    <div className="bg-background min-h-screen">
       {/* Hero */}
-      <div className="bg-primary text-white py-12">
+      <div className="bg-primary py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">Simulador de Crédito</h1>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-white tracking-tight">Simulador de Crédito</h1>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto font-light">
             Calcula tu cuota mensual estimada y planifica la compra de tu inmueble
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-10">
+      <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Formulario */}
-          <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
-            <h2 className="text-xl font-semibold text-gray-dark mb-6">Datos del crédito</h2>
+          <div className="bg-surface border border-border rounded-2xl p-6 md:p-8">
+            <h2 className="text-xl font-semibold text-foreground mb-6 tracking-tight">Datos del crédito</h2>
             <form onSubmit={handleCalcular} className="space-y-5">
               <Input
                 label="Precio del inmueble (USD)"
@@ -114,7 +114,7 @@ function SimuladorContent() {
               />
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground">
                   Enganche / Inicial (USD)
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -123,10 +123,10 @@ function SimuladorContent() {
                       key={p}
                       type="button"
                       onClick={() => handleEnganchePreset(p)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                         enganchePercent === p
-                          ? "bg-primary-light text-white"
-                          : "bg-gray-light text-gray-dark hover:bg-gray-200"
+                          ? "bg-accent text-white"
+                          : "bg-surface-2 text-foreground hover:bg-border border border-border"
                       }`}
                     >
                       {p}%
@@ -140,10 +140,10 @@ function SimuladorContent() {
                   placeholder="Monto de enganche"
                   value={enganche}
                   onChange={(e) => handleEngancheChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none transition"
+                  className="w-full px-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2"
                 />
                 {precioNum > 0 && engancheNum > 0 && (
-                  <p className="text-xs text-gray-medium">
+                  <p className="text-xs text-muted">
                     {((engancheNum / precioNum) * 100).toFixed(1)}% del precio
                   </p>
                 )}
@@ -178,60 +178,60 @@ function SimuladorContent() {
             {resultado ? (
               <>
                 {/* Cuota mensual */}
-                <div className="bg-white rounded-xl shadow-md p-6 md:p-8 text-center">
-                  <p className="text-sm text-gray-medium mb-1">Tu cuota mensual estimada</p>
-                  <p className="text-4xl md:text-5xl font-bold text-primary-light">
+                <div className="bg-surface border border-border rounded-2xl p-6 md:p-8 text-center">
+                  <p className="text-sm text-muted mb-1">Tu cuota mensual estimada</p>
+                  <p className="text-4xl md:text-5xl font-bold text-accent tracking-tight">
                     {formatPrice(Math.round(resultado.monthlyPayment))}
                   </p>
-                  <p className="text-sm text-gray-medium mt-2">por {plazo} años ({parseInt(plazo) * 12} cuotas)</p>
+                  <p className="text-sm text-muted mt-2">por {plazo} años ({parseInt(plazo) * 12} cuotas)</p>
                 </div>
 
                 {/* Desglose */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-white rounded-xl shadow-md p-4 text-center">
-                    <p className="text-xs text-gray-medium mb-1">Capital financiado</p>
-                    <p className="text-lg font-bold text-gray-dark">
+                  <div className="bg-surface border border-border rounded-2xl p-4 text-center">
+                    <p className="text-xs text-muted mb-1">Capital financiado</p>
+                    <p className="text-lg font-bold text-foreground">
                       {formatPrice(Math.round(resultado.principal))}
                     </p>
                   </div>
-                  <div className="bg-white rounded-xl shadow-md p-4 text-center">
-                    <p className="text-xs text-gray-medium mb-1">Total intereses</p>
+                  <div className="bg-surface border border-border rounded-2xl p-4 text-center">
+                    <p className="text-xs text-muted mb-1">Total intereses</p>
                     <p className="text-lg font-bold text-accent">
                       {formatPrice(Math.round(resultado.totalInterest))}
                     </p>
                   </div>
-                  <div className="bg-white rounded-xl shadow-md p-4 text-center">
-                    <p className="text-xs text-gray-medium mb-1">Costo total</p>
-                    <p className="text-lg font-bold text-gray-dark">
+                  <div className="bg-surface border border-border rounded-2xl p-4 text-center">
+                    <p className="text-xs text-muted mb-1">Costo total</p>
+                    <p className="text-lg font-bold text-foreground">
                       {formatPrice(Math.round(resultado.totalCost))}
                     </p>
                   </div>
                 </div>
 
                 {/* Gráfico visual */}
-                <div className="bg-white rounded-xl shadow-md p-6">
-                  <h3 className="text-sm font-semibold text-gray-dark mb-4">Capital vs Intereses</h3>
+                <div className="bg-surface border border-border rounded-2xl p-6">
+                  <h3 className="text-sm font-semibold text-foreground mb-4">Capital vs Intereses</h3>
                   <div className="space-y-3">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-medium">Capital</span>
-                        <span className="font-medium text-gray-dark">{capitalPercent}%</span>
+                        <span className="text-muted">Capital</span>
+                        <span className="font-medium text-foreground">{capitalPercent}%</span>
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-4">
+                      <div className="w-full bg-surface-2 rounded-full h-3">
                         <div
-                          className="bg-primary h-4 rounded-full transition-all duration-500"
+                          className="bg-primary h-3 rounded-full transition-all duration-500"
                           style={{ width: `${capitalPercent}%` }}
                         />
                       </div>
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-medium">Intereses</span>
-                        <span className="font-medium text-gray-dark">{interestPercent}%</span>
+                        <span className="text-muted">Intereses</span>
+                        <span className="font-medium text-foreground">{interestPercent}%</span>
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-4">
+                      <div className="w-full bg-surface-2 rounded-full h-3">
                         <div
-                          className="bg-accent h-4 rounded-full transition-all duration-500"
+                          className="bg-accent h-3 rounded-full transition-all duration-500"
                           style={{ width: `${interestPercent}%` }}
                         />
                       </div>
@@ -244,7 +244,7 @@ function SimuladorContent() {
                   href={getWhatsAppUrl(config.whatsapp, whatsappMsg)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 w-full bg-success hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-full transition-colors duration-200"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -253,19 +253,18 @@ function SimuladorContent() {
                 </a>
               </>
             ) : (
-              <div className="bg-white rounded-xl shadow-md p-8 text-center">
-                <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              <div className="bg-surface border border-border rounded-2xl p-8 text-center">
+                <svg className="w-16 h-16 text-border mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
-                <h3 className="text-lg font-semibold text-gray-dark mb-2">Ingresa los datos</h3>
-                <p className="text-gray-medium text-sm">
+                <h3 className="text-lg font-semibold text-foreground mb-2 tracking-tight">Ingresa los datos</h3>
+                <p className="text-muted text-sm font-light">
                   Completa el formulario para ver el cálculo de tu cuota mensual estimada.
                 </p>
               </div>
             )}
 
-            {/* Nota */}
-            <p className="text-xs text-gray-medium text-center">
+            <p className="text-xs text-muted-2 text-center">
               * Esta simulación es referencial. Los valores finales pueden variar según las condiciones del crédito.
               Consulta con nuestros asesores para más información.
             </p>

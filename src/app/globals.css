@@ -1,21 +1,90 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #1E3A5F;
-  --color-primary-light: #3B82F6;
-  --color-primary-dark: #0F2744;
-  --color-gray-dark: #1F2937;
-  --color-gray-medium: #6B7280;
-  --color-gray-light: #F3F4F6;
-  --color-white: #FFFFFF;
-  --color-accent: #10B981;
-  --color-danger: #EF4444;
-  --color-warning: #F59E0B;
-  --font-sans: 'Inter', sans-serif;
+  --color-background: #fafafa;
+  --color-surface: #ffffff;
+  --color-surface-2: #f5f5f7;
+  --color-foreground: #1d1d1f;
+  --color-muted: #6e6e73;
+  --color-muted-2: #86868b;
+  --color-primary: #2c3e50;
+  --color-primary-light: #4a5f7a;
+  --color-accent: #bf8f54;
+  --color-accent-light: #d4a574;
+  --color-border: #d2d2d7;
+  --color-divider: #e5e5e7;
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-white: #ffffff;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Dark mode overrides */
+.dark {
+  --color-background: #000000;
+  --color-surface: #1c1c1e;
+  --color-surface-2: #2c2c2e;
+  --color-foreground: #f5f5f7;
+  --color-muted: #86868b;
+  --color-muted-2: #6e6e73;
+  --color-primary: #4a5f7a;
+  --color-primary-light: #6b8bb5;
+  --color-accent: #d4a574;
+  --color-accent-light: #e0bb8f;
+  --color-border: #38383a;
+  --color-divider: #2c2c2e;
+  --color-white: #f5f5f7;
+}
+
+/* Base styles */
 body {
-  background: var(--color-white);
-  color: var(--color-gray-dark);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Apple-style typography */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
 }

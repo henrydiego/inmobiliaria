@@ -11,7 +11,7 @@ export default function WhatsAppFloat() {
       href={getWhatsAppUrl(config.whatsapp, "Hola, vi su página y me interesa información sobre propiedades")}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+      className="fixed bottom-6 right-6 z-40 bg-success hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
       aria-label="Contactar por WhatsApp"
     >
       <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">

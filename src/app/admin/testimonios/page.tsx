@@ -83,14 +83,14 @@ export default function AdminTestimoniosPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-dark">Testimonios</h1>
+        <h1 className="text-2xl font-bold text-foreground">Testimonios</h1>
         {!showForm && <Button onClick={() => setShowForm(true)}>+ Nuevo testimonio</Button>}
       </div>
 
       {/* Form */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 mb-6 space-y-4">
-          <h2 className="text-lg font-semibold text-gray-dark">
+        <form onSubmit={handleSubmit} className="bg-surface border border-border rounded-2xl p-6 mb-6 space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">
             {editingId ? "Editar Testimonio" : "Nuevo Testimonio"}
           </h2>
           <Input
@@ -107,14 +107,14 @@ export default function AdminTestimoniosPage() {
             onChange={(e) => setForm({ ...form, text: e.target.value })}
           />
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">Calificación</label>
+            <label className="block text-sm font-medium text-foreground">Calificación</label>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
                   type="button"
                   onClick={() => setForm({ ...form, rating: star })}
-                  className={`text-2xl ${star <= form.rating ? "text-yellow-400" : "text-gray-300"}`}
+                  className={`text-2xl ${star <= form.rating ? "text-warning" : "text-border"}`}
                 >
                   ★
                 </button>
@@ -122,9 +122,9 @@ export default function AdminTestimoniosPage() {
             </div>
           </div>
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Foto (opcional)</label>
+            <label className="block text-sm font-medium text-foreground">Foto (opcional)</label>
             <input type="file" accept="image/*" onChange={handleImageUpload} className="text-sm" disabled={uploading} />
-            {uploading && <p className="text-sm text-gray-medium">Subiendo...</p>}
+            {uploading && <p className="text-sm text-muted">Subiendo...</p>}
             {form.imageUrl && <img src={form.imageUrl} alt="" className="w-16 h-16 rounded-full object-cover" />}
           </div>
           <label className="flex items-center gap-2 cursor-pointer">
@@ -132,51 +132,51 @@ export default function AdminTestimoniosPage() {
               type="checkbox"
               checked={form.active}
               onChange={(e) => setForm({ ...form, active: e.target.checked })}
-              className="w-4 h-4 rounded border-gray-300"
+              className="w-4 h-4 rounded border-border accent-accent"
             />
-            <span className="text-sm font-medium text-gray-700">Visible en el sitio</span>
+            <span className="text-sm font-medium text-foreground">Visible en el sitio</span>
           </label>
           <div className="flex gap-3">
             <Button type="submit" disabled={saving}>{saving ? "Guardando..." : "Guardar"}</Button>
-            <Button variant="outline" type="button" onClick={resetForm}>Cancelar</Button>
+            <Button variant="ghost" type="button" onClick={resetForm}>Cancelar</Button>
           </div>
         </form>
       )}
 
       {/* List */}
       {loading ? (
-        <div className="text-center py-8 text-gray-medium">Cargando...</div>
+        <div className="text-center py-8 text-muted">Cargando...</div>
       ) : testimonials.length === 0 && !showForm ? (
-        <div className="text-center py-16 bg-white rounded-xl shadow-md">
-          <p className="text-gray-medium mb-4">No hay testimonios</p>
+        <div className="text-center py-16 bg-surface border border-border rounded-2xl">
+          <p className="text-muted mb-4">No hay testimonios</p>
           <Button onClick={() => setShowForm(true)}>Crear primer testimonio</Button>
         </div>
       ) : (
         <div className="space-y-3">
           {testimonials.map((t) => (
-            <div key={t.id} className="bg-white rounded-xl shadow-md p-4 flex items-center justify-between gap-4">
+            <div key={t.id} className="bg-surface border border-border rounded-2xl p-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 {t.imageUrl ? (
                   <img src={t.imageUrl} alt="" className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-primary-light/10 flex items-center justify-center flex-shrink-0">
-                    <span className="text-primary-light font-bold text-lg">{t.name[0]}</span>
+                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-accent font-bold text-lg">{t.name[0]}</span>
                   </div>
                 )}
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-medium text-gray-dark">{t.name}</p>
+                    <p className="font-medium text-foreground">{t.name}</p>
                     <span className="text-yellow-400 text-sm">{"★".repeat(t.rating)}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${t.active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${t.active ? "bg-success/15 text-success" : "bg-surface-2 text-muted"}`}>
                       {t.active ? "Visible" : "Oculto"}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-medium truncate">{t.text}</p>
+                  <p className="text-sm text-muted truncate">{t.text}</p>
                 </div>
               </div>
               <div className="flex gap-2 flex-shrink-0">
-                <button onClick={() => startEdit(t)} className="text-primary-light hover:underline text-xs">Editar</button>
-                <button onClick={() => toggleActive(t.id, t.active)} className="text-gray-medium hover:underline text-xs">
+                <button onClick={() => startEdit(t)} className="text-accent hover:underline text-xs">Editar</button>
+                <button onClick={() => toggleActive(t.id, t.active)} className="text-muted hover:underline text-xs">
                   {t.active ? "Ocultar" : "Mostrar"}
                 </button>
                 <button onClick={() => handleDelete(t.id, t.name)} className="text-danger hover:underline text-xs">Eliminar</button>

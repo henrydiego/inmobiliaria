@@ -16,18 +16,18 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
   const update = (patch: Partial<Filters>) => onChange({ ...filters, ...patch })
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 mb-6 space-y-4">
+    <div className="bg-surface border border-border rounded-2xl p-5 mb-8 space-y-4">
       {/* Search */}
       <div className="relative">
-        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input
           type="text"
           placeholder="Buscar por título, zona, dirección..."
           value={filters.search || ""}
           onChange={(e) => update({ search: e.target.value || undefined })}
-          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none transition"
+          className="w-full pl-11 pr-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2"
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -61,14 +61,14 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
             { value: "4", label: "4+" },
           ]}
         />
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-gray-700">Precio máx. (USD)</label>
+        <div className="space-y-1.5">
+          <label className="block text-sm font-medium text-foreground">Precio máx. (USD)</label>
           <input
             type="number"
             placeholder="Sin límite"
             value={filters.maxPrice || ""}
             onChange={(e) => update({ maxPrice: e.target.value ? parseInt(e.target.value) : undefined })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none transition"
+            className="w-full px-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2"
           />
         </div>
         <Select

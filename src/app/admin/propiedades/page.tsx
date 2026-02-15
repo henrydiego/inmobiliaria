@@ -37,7 +37,7 @@ export default function AdminPropertiesPage() {
     return (
       <div>
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-dark">Nueva Propiedad</h1>
+          <h1 className="text-2xl font-bold text-foreground">Nueva Propiedad</h1>
         </div>
         <PropertyForm />
       </div>
@@ -47,53 +47,53 @@ export default function AdminPropertiesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-dark">Propiedades</h1>
+        <h1 className="text-2xl font-bold text-foreground">Propiedades</h1>
         <Button onClick={() => setShowForm(true)}>+ Nueva propiedad</Button>
       </div>
 
       {loading ? (
-        <div className="text-center py-8 text-gray-medium">Cargando...</div>
+        <div className="text-center py-8 text-muted">Cargando...</div>
       ) : properties.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-xl shadow-md">
-          <p className="text-gray-medium mb-4">No hay propiedades registradas</p>
+        <div className="text-center py-16 bg-surface border border-border rounded-2xl">
+          <p className="text-muted mb-4">No hay propiedades registradas</p>
           <Button onClick={() => setShowForm(true)}>Crear primera propiedad</Button>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-surface border border-border rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-surface-2 border-b">
               <tr>
-                <th className="text-left p-4 font-medium text-gray-medium">Propiedad</th>
-                <th className="text-left p-4 font-medium text-gray-medium">Tipo</th>
-                <th className="text-left p-4 font-medium text-gray-medium">Precio</th>
-                <th className="text-left p-4 font-medium text-gray-medium">Estado</th>
-                <th className="text-right p-4 font-medium text-gray-medium">Acciones</th>
+                <th className="text-left p-4 font-medium text-muted">Propiedad</th>
+                <th className="text-left p-4 font-medium text-muted">Tipo</th>
+                <th className="text-left p-4 font-medium text-muted">Precio</th>
+                <th className="text-left p-4 font-medium text-muted">Estado</th>
+                <th className="text-right p-4 font-medium text-muted">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y">
               {properties.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50">
+                <tr key={p.id} className="hover:bg-surface-2">
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       {p.imageUrls?.[0] && (
                         <img src={p.imageUrls[0]} alt="" className="w-12 h-12 rounded-lg object-cover" />
                       )}
                       <div>
-                        <p className="font-medium text-gray-dark">{p.title}</p>
-                        <p className="text-xs text-gray-medium">{p.location.zone}</p>
+                        <p className="font-medium text-foreground">{p.title}</p>
+                        <p className="text-xs text-muted">{p.location.zone}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="p-4 text-gray-medium">{PROPERTY_TYPES[p.type]}</td>
+                  <td className="p-4 text-muted">{PROPERTY_TYPES[p.type]}</td>
                   <td className="p-4 font-medium">{formatPrice(p.price, p.currency)}</td>
                   <td className="p-4">
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                      p.active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"
+                      p.active ? "bg-success/15 text-success" : "bg-surface-2 text-muted"
                     }`}>
                       {p.active ? "Activa" : "Inactiva"}
                     </span>
                     {p.featured && (
-                      <span className="ml-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 font-medium">
+                      <span className="ml-1 text-xs px-2 py-1 rounded-full bg-warning/15 text-warning font-medium">
                         Destacada
                       </span>
                     )}
@@ -102,13 +102,13 @@ export default function AdminPropertiesPage() {
                     <div className="flex justify-end gap-2">
                       <Link
                         href={`/admin/propiedades/${p.id}`}
-                        className="text-primary-light hover:underline text-xs"
+                        className="text-accent hover:underline text-xs"
                       >
                         Editar
                       </Link>
                       <button
                         onClick={() => toggleActive(p.id, p.active)}
-                        className="text-gray-medium hover:underline text-xs"
+                        className="text-muted hover:underline text-xs"
                       >
                         {p.active ? "Desactivar" : "Activar"}
                       </button>

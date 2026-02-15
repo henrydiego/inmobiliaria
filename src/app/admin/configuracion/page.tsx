@@ -67,13 +67,13 @@ export default function ConfiguracionPage() {
     update({ zones: form.zones.filter((_, i) => i !== index) })
   }
 
-  if (loading) return <p className="text-gray-medium">Cargando configuración...</p>
+  if (loading) return <p className="text-muted">Cargando configuración...</p>
 
   return (
     <div className="max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-dark">Configuración del Sitio</h1>
-        <p className="text-gray-medium">Edita la información que se muestra en el sitio web.</p>
+        <h1 className="text-2xl font-bold text-foreground">Configuración del Sitio</h1>
+        <p className="text-muted">Edita la información que se muestra en el sitio web.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -128,7 +128,7 @@ export default function ConfiguracionPage() {
                 <Input label="Título" value={v.title} onChange={(e) => updateListItem("values", i, "title", e.target.value)} />
                 <Input label="Descripción" value={v.desc} onChange={(e) => updateListItem("values", i, "desc", e.target.value)} />
               </div>
-              <button type="button" onClick={() => removeListItem("values", i)} className="mt-7 text-red-500 hover:text-red-700 px-2">&#10005;</button>
+              <button type="button" onClick={() => removeListItem("values", i)} className="mt-7 text-danger hover:text-danger/70 px-2">&#10005;</button>
             </div>
           ))}
           <Button type="button" variant="secondary" onClick={() => addListItem("values")}>+ Agregar valor</Button>
@@ -142,7 +142,7 @@ export default function ConfiguracionPage() {
                 <Input label="Título" value={item.title} onChange={(e) => updateListItem("whyChooseUs", i, "title", e.target.value)} />
                 <Input label="Descripción" value={item.desc} onChange={(e) => updateListItem("whyChooseUs", i, "desc", e.target.value)} />
               </div>
-              <button type="button" onClick={() => removeListItem("whyChooseUs", i)} className="mt-7 text-red-500 hover:text-red-700 px-2">&#10005;</button>
+              <button type="button" onClick={() => removeListItem("whyChooseUs", i)} className="mt-7 text-danger hover:text-danger/70 px-2">&#10005;</button>
             </div>
           ))}
           <Button type="button" variant="secondary" onClick={() => addListItem("whyChooseUs")}>+ Agregar elemento</Button>
@@ -152,7 +152,7 @@ export default function ConfiguracionPage() {
         <Section title="Zonas">
           <div className="flex flex-wrap gap-2 mb-3">
             {form.zones.map((z, i) => (
-              <span key={i} className="bg-primary-light/10 text-primary-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <span key={i} className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm flex items-center gap-1">
                 {z}
                 <button type="button" onClick={() => removeZone(i)} className="hover:text-red-500">&#10005;</button>
               </span>
@@ -160,7 +160,7 @@ export default function ConfiguracionPage() {
           </div>
           <div className="flex gap-2">
             <input
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none"
+              className="flex-1 px-3 py-2 border border-border rounded-xl bg-surface focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none text-foreground"
               placeholder="Nueva zona..."
               value={newZone}
               onChange={(e) => setNewZone(e.target.value)}
@@ -184,8 +184,8 @@ export default function ConfiguracionPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-      <h2 className="text-lg font-semibold text-gray-dark">{title}</h2>
+    <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
       {children}
     </div>
   )

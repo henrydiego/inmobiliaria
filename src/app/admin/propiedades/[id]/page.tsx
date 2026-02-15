@@ -8,7 +8,7 @@ export default function EditPropertyPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-dark mb-6">Editar Propiedad</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">Editar Propiedad</h1>
       <PropertyForm propertyId={id} />
     </div>
   )

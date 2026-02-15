@@ -17,11 +17,11 @@ export default function FavoriteButton({ propertyId }: FavoriteButtonProps) {
         e.stopPropagation()
         toggleFavorite(propertyId)
       }}
-      className="p-1.5 rounded-full bg-white/90 hover:bg-white transition-colors shadow-sm"
+      className="p-2 rounded-full bg-surface/80 backdrop-blur-md border border-white/20 hover:bg-surface transition-all duration-200"
       aria-label={active ? "Quitar de favoritos" : "Agregar a favoritos"}
     >
       <svg
-        className={`w-5 h-5 transition-colors ${active ? "text-red-500 fill-red-500" : "text-gray-400"}`}
+        className={`w-4 h-4 transition-colors duration-200 ${active ? "text-red-500 fill-red-500" : "text-muted"}`}
         viewBox="0 0 24 24"
         fill={active ? "currentColor" : "none"}
         stroke="currentColor"

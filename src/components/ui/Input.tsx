@@ -7,10 +7,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export default function Input({ label, error, className = "", ...props }: InputProps) {
   return (
-    <div className="space-y-1">
-      {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
+    <div className="space-y-1.5">
+      {label && <label className="block text-sm font-medium text-foreground">{label}</label>}
       <input
-        className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none transition ${error ? "border-red-500" : ""} ${className}`}
+        className={`w-full px-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground placeholder:text-muted-2 ${error ? "border-danger" : ""} ${className}`}
         {...props}
       />
       {error && <p className="text-sm text-danger">{error}</p>}
@@ -25,10 +25,10 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export function Textarea({ label, error, className = "", ...props }: TextareaProps) {
   return (
-    <div className="space-y-1">
-      {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
+    <div className="space-y-1.5">
+      {label && <label className="block text-sm font-medium text-foreground">{label}</label>}
       <textarea
-        className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none transition resize-y ${error ? "border-red-500" : ""} ${className}`}
+        className={`w-full px-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 resize-y text-foreground placeholder:text-muted-2 ${error ? "border-danger" : ""} ${className}`}
         {...props}
       />
       {error && <p className="text-sm text-danger">{error}</p>}
@@ -43,10 +43,10 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export function Select({ label, options, className = "", ...props }: SelectProps) {
   return (
-    <div className="space-y-1">
-      {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
+    <div className="space-y-1.5">
+      {label && <label className="block text-sm font-medium text-foreground">{label}</label>}
       <select
-        className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none transition ${className}`}
+        className={`w-full px-4 py-2.5 bg-surface border border-border rounded-xl focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all duration-200 text-foreground ${className}`}
         {...props}
       >
         {options.map((opt) => (

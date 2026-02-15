@@ -13,7 +13,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/propiedades/${property.id}`} className="group">
-      <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+      <div className="bg-surface border border-border rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
         {/* Image */}
         <div className="relative h-56 overflow-hidden">
           <Image
@@ -21,40 +21,42 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             alt={property.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3">
-            <span className="bg-primary-light text-white text-xs font-semibold px-3 py-1 rounded-full">
+            <span className="bg-surface/80 backdrop-blur-md text-foreground text-xs font-medium px-3 py-1 rounded-full border border-white/20">
               {PROPERTY_TYPES[property.type]}
             </span>
           </div>
           <div className="absolute top-3 right-3 flex items-center gap-2">
             <FavoriteButton propertyId={property.id} />
-            <span className="bg-white/90 text-primary font-bold px-3 py-1 rounded-full text-sm">
+          </div>
+          <div className="absolute bottom-3 left-3">
+            <span className="bg-accent/90 backdrop-blur-md text-white font-semibold px-3 py-1.5 rounded-full text-sm">
               {formatPrice(property.price, property.currency)}
             </span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-4">
-          <h3 className="font-semibold text-gray-dark text-lg mb-1 line-clamp-1 group-hover:text-primary-light transition-colors">
+        <div className="p-5">
+          <h3 className="font-semibold text-foreground text-lg mb-1 line-clamp-1 group-hover:text-accent transition-colors duration-200 tracking-tight">
             {property.title}
           </h3>
-          <p className="text-gray-medium text-sm mb-3 flex items-center gap-1">
+          <p className="text-muted text-sm mb-4 flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             {property.location.zone}, {property.location.city}
           </p>
 
           {/* Features */}
-          <div className="flex items-center gap-4 text-sm text-gray-medium border-t pt-3">
+          <div className="flex items-center gap-4 text-sm text-muted border-t border-divider pt-4">
             {property.bedrooms > 0 && (
               <span className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
                 </svg>
                 {property.bedrooms} hab.
               </span>
@@ -69,7 +71,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             )}
             <span className="flex items-center gap-1">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
               {formatArea(property.area)}
             </span>

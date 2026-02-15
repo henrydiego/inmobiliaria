@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-medium">Cargando...</p>
+        <p className="text-muted">Cargando...</p>
       </div>
     )
   }
@@ -35,7 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!user || !isAdmin) return null
 
   return (
-    <div className="flex min-h-screen bg-gray-light">
+    <div className="flex min-h-screen bg-background">
       <AdminSidebar />
       <div className="flex-1 p-6">{children}</div>
     </div>

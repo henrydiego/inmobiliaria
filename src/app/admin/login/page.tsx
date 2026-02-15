@@ -36,19 +36,19 @@ export default function AdminLoginPage() {
   }
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><p>Cargando...</p></div>
+    return <div className="min-h-screen flex items-center justify-center"><p className="text-muted">Cargando...</p></div>
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-light">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="bg-surface border border-border rounded-2xl p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-dark">Panel Administrativo</h1>
-          <p className="text-gray-medium text-sm">Inmobiliaria 21</p>
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">Panel Administrativo</h1>
+          <p className="text-muted text-sm">Inmobiliaria 21</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-danger text-sm p-3 rounded-lg mb-4">{error}</div>
+          <div className="bg-danger/10 text-danger text-sm p-3 rounded-xl mb-4">{error}</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">

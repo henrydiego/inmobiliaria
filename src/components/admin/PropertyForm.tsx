@@ -91,13 +91,13 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
     }
   }
 
-  if (loading) return <p className="text-gray-medium">Cargando...</p>
+  if (loading) return <p className="text-muted">Cargando...</p>
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       {/* Basic Info */}
-      <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-dark">Información básica</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Información básica</h2>
         <Input label="Título" required value={form.title} onChange={(e) => update({ title: e.target.value })} />
         <Textarea label="Descripción" rows={4} required value={form.description} onChange={(e) => update({ description: e.target.value })} />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -108,8 +108,8 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       </div>
 
       {/* Details */}
-      <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-dark">Detalles</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Detalles</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Input label="Área construida (m²)" type="number" min={0} value={form.area || ""} onChange={(e) => update({ area: Number(e.target.value) })} />
           <Input label="Área terreno (m²)" type="number" min={0} value={form.landArea || ""} onChange={(e) => update({ landArea: Number(e.target.value) })} />
@@ -121,11 +121,11 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       </div>
 
       {/* Features */}
-      <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-dark">Características</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Características</h2>
         <div className="flex gap-2">
           <input
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent outline-none"
+            className="flex-1 px-3 py-2 border border-border rounded-xl bg-surface focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none text-foreground"
             placeholder="Ej: Piscina, Jardín, Seguridad 24h..."
             value={featureInput}
             onChange={(e) => setFeatureInput(e.target.value)}
@@ -136,7 +136,7 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
         {form.features.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {form.features.map((f) => (
-              <span key={f} className="bg-primary-light/10 text-primary-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <span key={f} className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm flex items-center gap-1">
                 {f}
                 <button type="button" onClick={() => removeFeature(f)} className="hover:text-red-500">&#10005;</button>
               </span>
@@ -146,8 +146,8 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       </div>
 
       {/* Location */}
-      <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-dark">Ubicación</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Ubicación</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input label="Dirección" required value={form.location.address} onChange={(e) => updateLocation({ address: e.target.value })} />
           <Select label="Zona" value={form.location.zone} onChange={(e) => updateLocation({ zone: e.target.value })} options={zones.map((z) => ({ value: z, label: z }))} />
@@ -160,8 +160,8 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       </div>
 
       {/* Contact */}
-      <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-dark">Contacto</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Contacto</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Input label="Teléfono" required value={form.contact.phone} onChange={(e) => updateContact({ phone: e.target.value })} />
           <Input label="WhatsApp" required value={form.contact.whatsapp} onChange={(e) => updateContact({ whatsapp: e.target.value })} />
@@ -170,31 +170,31 @@ export default function PropertyForm({ propertyId }: PropertyFormProps) {
       </div>
 
       {/* Images */}
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-surface border border-border rounded-2xl p-6">
         <ImageUploader images={form.imageUrls} onChange={(urls) => update({ imageUrls: urls })} />
       </div>
 
       {/* Plan Images */}
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-surface border border-border rounded-2xl p-6">
         <ImageUploader
           images={form.planImageUrls || []}
           onChange={(urls) => update({ planImageUrls: urls })}
           label="Imágenes del plano"
           maxImages={2}
         />
-        <p className="text-xs text-gray-medium mt-2">Sube hasta 2 imágenes del plano de la propiedad.</p>
+        <p className="text-xs text-muted mt-2">Sube hasta 2 imágenes del plano de la propiedad.</p>
       </div>
 
       {/* Options */}
-      <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-dark">Opciones</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Opciones</h2>
         <div className="flex gap-6">
           <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={form.active} onChange={(e) => update({ active: e.target.checked })} className="w-4 h-4 rounded accent-primary-light" />
+            <input type="checkbox" checked={form.active} onChange={(e) => update({ active: e.target.checked })} className="w-4 h-4 rounded accent-accent" />
             <span className="text-sm">Activa (visible en el sitio)</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={form.featured} onChange={(e) => update({ featured: e.target.checked })} className="w-4 h-4 rounded accent-primary-light" />
+            <input type="checkbox" checked={form.featured} onChange={(e) => update({ featured: e.target.checked })} className="w-4 h-4 rounded accent-accent" />
             <span className="text-sm">Destacada (aparece en inicio)</span>
           </label>
         </div>
