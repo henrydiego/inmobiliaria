@@ -33,6 +33,7 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <Select
           label="Tipo"
+          aria-label="Filtrar por tipo de propiedad"
           value={filters.type || ""}
           onChange={(e) => update({ type: (e.target.value || undefined) as Filters["type"] })}
           options={[
@@ -42,6 +43,7 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
         />
         <Select
           label="Zona"
+          aria-label="Filtrar por zona"
           value={filters.zone || ""}
           onChange={(e) => update({ zone: e.target.value || undefined })}
           options={[
@@ -51,6 +53,7 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
         />
         <Select
           label="Habitaciones"
+          aria-label="Filtrar por número de habitaciones"
           value={filters.minBedrooms?.toString() || ""}
           onChange={(e) => update({ minBedrooms: e.target.value ? parseInt(e.target.value) : undefined })}
           options={[
@@ -82,6 +85,7 @@ export default function PropertyFilters({ filters, onChange }: PropertyFiltersPr
         </div>
         <Select
           label="Ordenar por"
+          aria-label="Ordenar propiedades"
           value={filters.sortBy || "newest"}
           onChange={(e) => update({ sortBy: e.target.value as Filters["sortBy"] })}
           options={[

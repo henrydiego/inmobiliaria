@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import ThemeToggle from "@/components/ui/ThemeToggle"
+import NotificationBell from "@/components/ui/NotificationBell"
 
 const NAV_LINKS = [
   { href: "/", label: "Inicio" },
@@ -39,6 +40,7 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="ml-2 flex items-center gap-2">
+              <NotificationBell />
               <ThemeToggle />
               <Link
                 href="/contacto"
@@ -51,6 +53,7 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <div className="md:hidden flex items-center gap-2">
+            <NotificationBell />
             <ThemeToggle />
             <button
               className="p-2 text-muted hover:text-foreground transition-colors"

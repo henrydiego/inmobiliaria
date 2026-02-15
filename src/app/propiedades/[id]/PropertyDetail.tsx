@@ -38,6 +38,14 @@ export default function PropertyDetail({ id }: { id: string }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!property) return
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.error("Ingresa un email válido")
+      return
+    }
+    if (formData.phone && !/^[+\d\s()-]{6,20}$/.test(formData.phone)) {
+      toast.error("Ingresa un teléfono válido")
+      return
+    }
     setSending(true)
     try {
       await submitContact({
@@ -48,6 +56,7 @@ export default function PropertyDetail({ id }: { id: string }) {
       sendContactNotification({ ...formData, propertyTitle: property.title })
       setSent(true)
       setFormData({ name: "", email: "", phone: "", message: "" })
+      toast.success("¡Consulta enviada correctamente!")
     } catch {
       toast.error("Error al enviar. Intenta nuevamente.")
     } finally {

@@ -17,14 +17,31 @@ export default function ContactoPage() {
   const [sent, setSent] = useState(false)
   const { config } = useSiteConfig()
 
+  const validateForm = () => {
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error("Ingresa un email válido")
+      return false
+    }
+    if (form.phone && !/^[+\d\s()-]{6,20}$/.test(form.phone)) {
+      toast.error("Ingresa un teléfono válido")
+      return false
+    }
+    if (form.message.length < 10) {
+      toast.error("El mensaje debe tener al menos 10 caracteres")
+      return false
+    }
+    return true
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validateForm()) return
     setSending(true)
     try {
       await submitContact(form)
       setSent(true)
       setForm({ name: "", email: "", phone: "", message: "" })
-      // Send email notification in background
+      toast.success("¡Mensaje enviado correctamente!")
       sendContactNotification(form).catch((err) =>
         console.error("Email notification failed:", err)
       )

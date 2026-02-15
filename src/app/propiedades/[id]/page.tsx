@@ -4,6 +4,8 @@ import { formatPrice } from "@/lib/utils"
 import { PROPERTY_TYPES } from "@/types"
 import PropertyDetail from "./PropertyDetail"
 
+const SITE_URL = "https://inmobiliaria-rho-liard.vercel.app"
+
 interface Props {
   params: Promise<{ id: string }>
 }
@@ -42,5 +44,43 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PropertyPage({ params }: Props) {
   const { id } = await params
-  return <PropertyDetail id={id} />
+
+  let jsonLd = null
+  try {
+    const property = await getPropertyById(id)
+    if (property) {
+      jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "RealEstateListing",
+        "name": property.title,
+        "description": `${PROPERTY_TYPES[property.type]} en ${property.location.zone}, ${property.location.city}`,
+        "url": `${SITE_URL}/propiedades/${id}`,
+        "image": property.imageUrls[0] || "",
+        "offers": {
+          "@type": "Offer",
+          "price": property.price,
+          "priceCurrency": property.currency,
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": property.location.address,
+          "addressLocality": property.location.city,
+          "addressRegion": property.location.zone,
+          "addressCountry": "BO",
+        },
+      }
+    }
+  } catch {}
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <PropertyDetail id={id} />
+    </>
+  )
 }
