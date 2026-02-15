@@ -49,7 +49,7 @@ export default function HomePage() {
               sizes="100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-black/60" />
           </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
@@ -69,14 +69,22 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/propiedades">
-                <Button size="lg" className={config.heroImage ? "bg-white text-primary hover:bg-white/90" : ""}>
-                  Ver propiedades
-                </Button>
+                {config.heroImage ? (
+                  <span className="inline-block px-7 py-3 text-base rounded-full font-medium transition-all duration-200 bg-accent hover:bg-accent-light text-white">
+                    Ver propiedades
+                  </span>
+                ) : (
+                  <Button size="lg">Ver propiedades</Button>
+                )}
               </Link>
               <Link href="/contacto">
-                <Button variant="ghost" size="lg" className={config.heroImage ? "border-white/30 text-white hover:bg-white/10" : ""}>
-                  Contáctanos
-                </Button>
+                {config.heroImage ? (
+                  <span className="inline-block px-7 py-3 text-base rounded-full font-medium transition-all duration-200 border border-white/40 text-white hover:bg-white/10 backdrop-blur-sm">
+                    Contáctanos
+                  </span>
+                ) : (
+                  <Button variant="ghost" size="lg">Contáctanos</Button>
+                )}
               </Link>
             </div>
           </div>
