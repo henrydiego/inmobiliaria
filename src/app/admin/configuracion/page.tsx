@@ -190,6 +190,16 @@ export default function ConfiguracionPage() {
           <Button type="button" variant="secondary" onClick={() => addListItem("whyChooseUs")}>+ Agregar elemento</Button>
         </Section>
 
+        {/* Redes Sociales */}
+        <Section title="Redes Sociales">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input label="Facebook" value={form.socialFacebook} onChange={(e) => update({ socialFacebook: e.target.value })} placeholder="https://facebook.com/tu-pagina" />
+            <Input label="Instagram" value={form.socialInstagram} onChange={(e) => update({ socialInstagram: e.target.value })} placeholder="https://instagram.com/tu-cuenta" />
+            <Input label="TikTok" value={form.socialTiktok} onChange={(e) => update({ socialTiktok: e.target.value })} placeholder="https://tiktok.com/@tu-cuenta" />
+            <Input label="YouTube" value={form.socialYoutube} onChange={(e) => update({ socialYoutube: e.target.value })} placeholder="https://youtube.com/@tu-canal" />
+          </div>
+        </Section>
+
         {/* Zonas */}
         <Section title="Zonas">
           <div className="flex flex-wrap gap-2 mb-3">

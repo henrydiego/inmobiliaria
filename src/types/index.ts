@@ -115,6 +115,10 @@ export interface SiteConfig {
   values: { title: string; desc: string }[]
   whyChooseUs: { title: string; desc: string }[]
   zones: string[]
+  socialFacebook: string
+  socialInstagram: string
+  socialTiktok: string
+  socialYoutube: string
 }
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
@@ -148,4 +152,8 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
     { title: "Amplia Cobertura", desc: "Propiedades en todas las zonas de La Paz y alrededores." },
   ],
   zones: ["Zona Sur", "Zona Norte", "Centro", "Sopocachi", "Miraflores", "Calacoto", "San Miguel", "Achumani", "Obrajes", "Mallasa"],
+  socialFacebook: "",
+  socialInstagram: "",
+  socialTiktok: "",
+  socialYoutube: "",
 }
