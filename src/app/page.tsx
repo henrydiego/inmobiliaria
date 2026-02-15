@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useFeaturedProperties } from "@/hooks/useProperties"
 import { useActiveTestimonials } from "@/hooks/useTestimonials"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
@@ -20,27 +21,45 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero - clean, no heavy bg */}
-      <section className="relative min-h-[85vh] flex items-center bg-background overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
+      {/* Hero */}
+      <section className={`relative min-h-[85vh] flex items-center overflow-hidden ${config.heroImage ? "" : "bg-background"}`}>
+        {/* Background image */}
+        {config.heroImage ? (
+          <>
+            <Image
+              src={config.heroImage}
+              alt="Hero"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/50" />
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
+        )}
+
         <div className="relative max-w-7xl mx-auto px-4 py-24 w-full">
           <div className="max-w-3xl">
-            <p className="text-accent font-medium text-sm tracking-widest uppercase mb-4">
+            <p className={`font-medium text-sm tracking-widest uppercase mb-4 ${config.heroImage ? "text-white/80" : "text-accent"}`}>
               {config.companyName}
             </p>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[1.05] tracking-tight text-foreground">
+            <h1 className={`text-5xl md:text-7xl font-bold mb-6 leading-[1.05] tracking-tight ${config.heroImage ? "text-white" : "text-foreground"}`}>
               {config.heroTitle}<br />
-              <span className="text-accent">{config.heroHighlight}</span>
+              <span className={config.heroImage ? "text-accent-light" : "text-accent"}>{config.heroHighlight}</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted mb-10 max-w-xl font-light leading-relaxed">
+            <p className={`text-lg md:text-xl mb-10 max-w-xl font-light leading-relaxed ${config.heroImage ? "text-white/70" : "text-muted"}`}>
               {config.heroSubtitle}
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/propiedades">
-                <Button size="lg">Ver propiedades</Button>
+                <Button size="lg" className={config.heroImage ? "bg-white text-primary hover:bg-white/90" : ""}>
+                  Ver propiedades
+                </Button>
               </Link>
               <Link href="/contacto">
-                <Button variant="ghost" size="lg">
+                <Button variant="ghost" size="lg" className={config.heroImage ? "border-white/30 text-white hover:bg-white/10" : ""}>
                   Contáctanos
                 </Button>
               </Link>

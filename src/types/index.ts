@@ -109,6 +109,7 @@ export interface SiteConfig {
   heroTitle: string
   heroHighlight: string
   heroSubtitle: string
+  heroImage: string
   mission: string
   vision: string
   values: { title: string; desc: string }[]
@@ -132,6 +133,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   heroTitle: "Encuentra tu hogar",
   heroHighlight: "ideal en La Paz",
   heroSubtitle: "Casas, departamentos, terrenos y más. Te ayudamos a encontrar la propiedad perfecta para ti y tu familia.",
+  heroImage: "",
   mission: "Facilitar el proceso de compra de bienes raíces, brindando un servicio profesional, transparente y personalizado. Nos esforzamos por conectar a las personas con las propiedades que se ajusten a sus necesidades y sueños.",
   vision: "Ser la inmobiliaria de referencia en La Paz, reconocida por nuestra integridad, conocimiento del mercado local y compromiso con la satisfacción de nuestros clientes.",
   values: [

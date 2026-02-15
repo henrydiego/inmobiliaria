@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import { SiteConfig } from "@/types"
+import { uploadImage } from "@/lib/cloudinary"
 import Input, { Textarea } from "@/components/ui/Input"
 import Button from "@/components/ui/Button"
 
@@ -52,6 +53,22 @@ export default function ConfiguracionPage() {
 
   const removeListItem = (key: "values" | "whyChooseUs", index: number) => {
     update({ [key]: form[key].filter((_, i) => i !== index) })
+  }
+
+  // Hero image upload
+  const [uploadingHero, setUploadingHero] = useState(false)
+  const handleHeroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadingHero(true)
+    try {
+      const url = await uploadImage(file)
+      update({ heroImage: url })
+    } catch {
+      alert("Error al subir imagen")
+    } finally {
+      setUploadingHero(false)
+    }
   }
 
   // Zone helpers
@@ -112,6 +129,30 @@ export default function ConfiguracionPage() {
           <Input label="Título" value={form.heroTitle} onChange={(e) => update({ heroTitle: e.target.value })} placeholder="Ej: Encuentra tu hogar" />
           <Input label="Texto resaltado" value={form.heroHighlight} onChange={(e) => update({ heroHighlight: e.target.value })} placeholder="Ej: ideal en La Paz" />
           <Textarea label="Subtítulo" rows={2} value={form.heroSubtitle} onChange={(e) => update({ heroSubtitle: e.target.value })} />
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-foreground">Imagen de fondo del Hero</label>
+            <p className="text-xs text-muted">Se muestra detrás del texto en la página principal. Recomendado: 1920x800px o mayor.</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleHeroImageUpload}
+              className="text-sm text-foreground"
+              disabled={uploadingHero}
+            />
+            {uploadingHero && <p className="text-sm text-accent">Subiendo imagen...</p>}
+            {form.heroImage && (
+              <div className="relative">
+                <img src={form.heroImage} alt="Hero preview" className="w-full max-w-lg h-40 object-cover rounded-xl" />
+                <button
+                  type="button"
+                  onClick={() => update({ heroImage: "" })}
+                  className="absolute top-2 right-2 bg-danger text-white text-xs px-2 py-1 rounded-lg hover:bg-danger/80"
+                >
+                  Quitar
+                </button>
+              </div>
+            )}
+          </div>
         </Section>
 
         {/* Nosotros */}
