@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import Image from "next/image"
 import toast from "react-hot-toast"
+import QRCode from "react-qr-code"
 import { getProperty, submitContact } from "@/hooks/useProperties"
 import { sendContactNotification } from "@/lib/emailjs"
 import { Property, PROPERTY_TYPES } from "@/types"
@@ -24,7 +25,51 @@ export default function PropertyDetail({ id }: { id: string }) {
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const [lightboxImg, setLightboxImg] = useState<string | null>(null)
+  const [showQR, setShowQR] = useState(false)
+  const qrRef = useRef<HTMLDivElement>(null)
   const closeLightbox = useCallback(() => setLightboxImg(null), [])
+
+  const downloadQR = useCallback(() => {
+    if (!qrRef.current || !property) return
+    const svg = qrRef.current.querySelector("svg")
+    if (!svg) return
+    const svgData = new XMLSerializer().serializeToString(svg)
+    const canvas = document.createElement("canvas")
+    canvas.width = 1024
+    canvas.height = 1024
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+    const img = new window.Image()
+    img.onload = () => {
+      ctx.fillStyle = "#ffffff"
+      ctx.fillRect(0, 0, 1024, 1024)
+      ctx.drawImage(img, 112, 112, 800, 800)
+      const a = document.createElement("a")
+      a.download = `QR-${property.title.replace(/\s+/g, "-")}.png`
+      a.href = canvas.toDataURL("image/png")
+      a.click()
+    }
+    img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)))
+  }, [property])
+
+  const printQR = useCallback(() => {
+    if (!qrRef.current || !property) return
+    const printWindow = window.open("", "_blank")
+    if (!printWindow) return
+    const svg = qrRef.current.querySelector("svg")
+    if (!svg) return
+    const svgData = new XMLSerializer().serializeToString(svg)
+    printWindow.document.write(`
+      <html><head><title>QR - ${property.title}</title>
+      <style>body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;margin:0}
+      h2{margin-bottom:4px}p{color:#666;margin-top:0}</style></head>
+      <body><h2>${property.title}</h2>
+      <p>${property.location.address}, ${property.location.zone}</p>
+      <div style="margin:20px 0">${svgData}</div>
+      <script>window.print();window.close();</script></body></html>
+    `)
+    printWindow.document.close()
+  }, [property])
 
   useEffect(() => {
     async function load() {
@@ -121,12 +166,22 @@ export default function PropertyDetail({ id }: { id: string }) {
               </svg>
               {property.location.address}, {property.location.zone}, {property.location.city}
             </p>
-            <div className="mt-3">
+            <div className="mt-3 flex items-center gap-3 flex-wrap">
               <ShareButtons
                 url={`/propiedades/${property.id}`}
                 title={`${property.title} - ${formatPrice(property.price, property.currency)}`}
                 description={`${PROPERTY_TYPES[property.type]} en ${property.location.zone}. ${property.bedrooms} hab, ${property.area} m².`}
               />
+              <button
+                onClick={() => setShowQR(true)}
+                className="p-2 rounded-full bg-surface-2 hover:bg-border text-foreground transition-colors"
+                aria-label="Ver código QR"
+                title="Código QR"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h7v7H3V3zm11 0h7v7h-7V3zm-11 11h7v7H3v-7zm14 3h.01M17 17h.01M14 14h3v3h-3v-3zm3 3h3v3h-3v-3z" />
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -298,6 +353,59 @@ export default function PropertyDetail({ id }: { id: string }) {
         type={property.type}
         zone={property.location.zone}
       />
+
+      {/* QR Modal */}
+      {showQR && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setShowQR(false)}
+        >
+          <div
+            className="bg-surface border border-border rounded-2xl p-6 max-w-sm w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowQR(false)}
+              className="absolute top-3 right-3 text-muted hover:text-foreground p-1 rounded-full transition-colors"
+              aria-label="Cerrar"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h3 className="text-lg font-semibold text-foreground mb-1 tracking-tight pr-8">Código QR</h3>
+            <p className="text-sm text-muted mb-4">{property.title}</p>
+            <p className="text-xs text-muted mb-4">{property.location.address}, {property.location.zone}</p>
+            <div ref={qrRef} className="bg-white p-4 rounded-xl flex items-center justify-center mb-4">
+              <QRCode
+                value={typeof window !== "undefined" ? `${window.location.origin}/propiedades/${property.id}` : `/propiedades/${property.id}`}
+                size={220}
+                level="H"
+              />
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={downloadQR}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-accent hover:bg-accent/90 text-white rounded-full text-sm font-medium transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Descargar
+              </button>
+              <button
+                onClick={printQR}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-surface-2 hover:bg-border text-foreground rounded-full text-sm font-medium transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Imprimir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox */}
       {lightboxImg && (

@@ -12,23 +12,80 @@ interface MonthData {
   count: number
 }
 
+interface TypeData {
+  label: string
+  count: number
+  color: string
+}
+
+interface ZoneData {
+  zone: string
+  count: number
+}
+
+interface TopProperty {
+  title: string
+  count: number
+}
+
+const TYPE_COLORS: Record<string, string> = {
+  casa: "#3b82f6",
+  departamento: "#8b5cf6",
+  terreno: "#f59e0b",
+  oficina: "#10b981",
+  local_comercial: "#ef4444",
+}
+
+const TYPE_LABELS: Record<string, string> = {
+  casa: "Casa",
+  departamento: "Depto",
+  terreno: "Terreno",
+  oficina: "Oficina",
+  local_comercial: "Local",
+}
+
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ total: 0, active: 0, inactive: 0, featured: 0 })
   const [contacts, setContacts] = useState<Contact[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
   const [totalContacts, setTotalContacts] = useState(0)
   const [monthlyData, setMonthlyData] = useState<MonthData[]>([])
+  const [typeData, setTypeData] = useState<TypeData[]>([])
+  const [zoneData, setZoneData] = useState<ZoneData[]>([])
+  const [topProperties, setTopProperties] = useState<TopProperty[]>([])
 
   useEffect(() => {
     async function loadData() {
       const allProps = await getDocs(collection(db, "properties"))
       let active = 0, featured = 0
+      const typeCounts: Record<string, number> = {}
+      const zoneCounts: Record<string, number> = {}
+
       allProps.forEach((doc) => {
         const d = doc.data()
         if (d.active) active++
         if (d.featured) featured++
+        typeCounts[d.type] = (typeCounts[d.type] || 0) + 1
+        if (d.location?.zone) {
+          zoneCounts[d.location.zone] = (zoneCounts[d.location.zone] || 0) + 1
+        }
       })
       setStats({ total: allProps.size, active, inactive: allProps.size - active, featured })
+
+      // Type distribution
+      const types: TypeData[] = Object.entries(typeCounts).map(([type, count]) => ({
+        label: TYPE_LABELS[type] || type,
+        count,
+        color: TYPE_COLORS[type] || "#6b7280",
+      }))
+      setTypeData(types)
+
+      // Zone distribution (top 8)
+      const zones: ZoneData[] = Object.entries(zoneCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8)
+        .map(([zone, count]) => ({ zone, count }))
+      setZoneData(zones)
 
       const allContactsQ = query(collection(db, "contacts"), orderBy("createdAt", "desc"))
       const allContactsSnap = await getDocs(allContactsQ)
@@ -38,6 +95,21 @@ export default function AdminDashboard() {
 
       const unread = allContacts.filter((c) => !c.read).length
       setUnreadCount(unread)
+
+      // Top 5 most consulted properties
+      const propCounts: Record<string, { title: string; count: number }> = {}
+      allContacts.forEach((c) => {
+        if (c.propertyId) {
+          if (!propCounts[c.propertyId]) {
+            propCounts[c.propertyId] = { title: c.propertyTitle || c.propertyId, count: 0 }
+          }
+          propCounts[c.propertyId].count++
+        }
+      })
+      const top = Object.values(propCounts)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5)
+      setTopProperties(top)
 
       const months: MonthData[] = []
       const now = new Date()
@@ -177,6 +249,114 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Charts Row: Type Distribution + Zone Distribution */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Donut Chart - Property Types */}
+        <div className="bg-surface border border-border rounded-2xl p-6">
+          <h2 className="text-lg font-semibold text-foreground mb-4 tracking-tight">Distribución por tipo</h2>
+          {typeData.length > 0 ? (
+            <div className="flex items-center gap-6">
+              <div className="relative w-36 h-36 flex-shrink-0">
+                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                  {(() => {
+                    const total = typeData.reduce((s, t) => s + t.count, 0)
+                    let offset = 0
+                    return typeData.map((t, i) => {
+                      const pct = total > 0 ? (t.count / total) * 100 : 0
+                      const dash = `${pct} ${100 - pct}`
+                      const el = (
+                        <circle
+                          key={i}
+                          cx="18" cy="18" r="15.915"
+                          fill="none"
+                          stroke={t.color}
+                          strokeWidth="3.5"
+                          strokeDasharray={dash}
+                          strokeDashoffset={-offset}
+                          strokeLinecap="round"
+                        />
+                      )
+                      offset += pct
+                      return el
+                    })
+                  })()}
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <span className="text-2xl font-bold text-foreground">{stats.total}</span>
+                    <span className="block text-xs text-muted">total</span>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2 flex-1">
+                {typeData.map((t, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: t.color }} />
+                    <span className="text-sm text-muted flex-1">{t.label}</span>
+                    <span className="text-sm font-semibold text-foreground">{t.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="h-36 flex items-center justify-center text-muted">Cargando...</div>
+          )}
+        </div>
+
+        {/* Horizontal Bar Chart - Zones */}
+        <div className="bg-surface border border-border rounded-2xl p-6">
+          <h2 className="text-lg font-semibold text-foreground mb-4 tracking-tight">Propiedades por zona</h2>
+          {zoneData.length > 0 ? (
+            <div className="space-y-3">
+              {(() => {
+                const maxZ = Math.max(...zoneData.map((z) => z.count), 1)
+                return zoneData.map((z, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="text-xs text-muted w-24 truncate text-right flex-shrink-0">{z.zone}</span>
+                    <div className="flex-1 bg-surface-2 rounded-full h-5 relative overflow-hidden">
+                      <div
+                        className="h-full bg-accent rounded-full transition-all duration-500"
+                        style={{ width: `${(z.count / maxZ) * 100}%`, minWidth: z.count > 0 ? "20px" : "0" }}
+                      />
+                    </div>
+                    <span className="text-xs font-semibold text-foreground w-6 text-right">{z.count}</span>
+                  </div>
+                ))
+              })()}
+            </div>
+          ) : (
+            <div className="h-36 flex items-center justify-center text-muted">Cargando...</div>
+          )}
+        </div>
+      </div>
+
+      {/* Top 5 Most Consulted Properties */}
+      {topProperties.length > 0 && (
+        <div className="bg-surface border border-border rounded-2xl p-6 mb-8">
+          <h2 className="text-lg font-semibold text-foreground mb-4 tracking-tight">Top 5 propiedades más consultadas</h2>
+          <div className="space-y-3">
+            {(() => {
+              const maxP = Math.max(...topProperties.map((p) => p.count), 1)
+              return topProperties.map((p, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <span className="text-sm font-bold text-accent w-6 flex-shrink-0">#{i + 1}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-foreground truncate">{p.title}</p>
+                    <div className="mt-1 bg-surface-2 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="h-full bg-accent/70 rounded-full transition-all duration-500"
+                        style={{ width: `${(p.count / maxP) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <span className="text-sm font-semibold text-foreground flex-shrink-0">{p.count} consulta{p.count !== 1 ? "s" : ""}</span>
+                </div>
+              ))
+            })()}
+          </div>
+        </div>
+      )}
 
       {/* Recent Contacts */}
       <div className="bg-surface border border-border rounded-2xl">
