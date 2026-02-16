@@ -72,6 +72,79 @@ h1, h2, h3, h4, h5, h6 {
   animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Micro-interactions */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: scale(0.95) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--color-surface-2) 0%, var(--color-border) 50%, var(--color-surface-2) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+.animate-pop-in {
+  animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Navbar active underline */
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent);
+  border-radius: 1px;
+  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Mobile menu stagger */
+.menu-stagger:nth-child(1) { animation-delay: 0ms; }
+.menu-stagger:nth-child(2) { animation-delay: 40ms; }
+.menu-stagger:nth-child(3) { animation-delay: 80ms; }
+.menu-stagger:nth-child(4) { animation-delay: 120ms; }
+.menu-stagger:nth-child(5) { animation-delay: 160ms; }
+.menu-stagger:nth-child(6) { animation-delay: 200ms; }
+.menu-stagger:nth-child(7) { animation-delay: 240ms; }
+
 /* Scroll-triggered animations */
 .scroll-animate {
   opacity: 0;

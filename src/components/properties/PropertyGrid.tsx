@@ -11,15 +11,15 @@ export default function PropertyGrid({ properties, loading }: PropertyGridProps)
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="bg-surface border border-border rounded-2xl overflow-hidden animate-pulse">
-            <div className="h-56 bg-surface-2" />
+          <div key={i} className="bg-surface border border-border rounded-2xl overflow-hidden">
+            <div className="h-56 animate-shimmer" />
             <div className="p-5 space-y-3">
-              <div className="h-5 bg-surface-2 rounded-full w-3/4" />
-              <div className="h-4 bg-surface-2 rounded-full w-1/2" />
+              <div className="h-5 animate-shimmer rounded-full w-3/4" />
+              <div className="h-4 animate-shimmer rounded-full w-1/2" />
               <div className="border-t border-divider pt-4 flex gap-4">
-                <div className="h-4 bg-surface-2 rounded-full w-16" />
-                <div className="h-4 bg-surface-2 rounded-full w-16" />
-                <div className="h-4 bg-surface-2 rounded-full w-20" />
+                <div className="h-4 animate-shimmer rounded-full w-16" />
+                <div className="h-4 animate-shimmer rounded-full w-16" />
+                <div className="h-4 animate-shimmer rounded-full w-20" />
               </div>
             </div>
           </div>

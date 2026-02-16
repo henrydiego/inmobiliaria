@@ -70,20 +70,20 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4">
               <Link href="/propiedades">
                 {config.heroImage ? (
-                  <span className="inline-block px-7 py-3 text-base rounded-full font-medium transition-all duration-200 bg-accent hover:bg-accent-light text-white">
+                  <span className="inline-block px-7 py-3 text-base rounded-full font-medium transition-all duration-200 bg-accent hover:bg-accent-light hover:-translate-y-0.5 text-white">
                     Ver propiedades
                   </span>
                 ) : (
-                  <Button size="lg">Ver propiedades</Button>
+                  <Button size="lg" className="hover:-translate-y-0.5">Ver propiedades</Button>
                 )}
               </Link>
               <Link href="/contacto">
                 {config.heroImage ? (
-                  <span className="inline-block px-7 py-3 text-base rounded-full font-medium transition-all duration-200 border border-white/40 text-white hover:bg-white/10 backdrop-blur-sm">
+                  <span className="inline-block px-7 py-3 text-base rounded-full font-medium transition-all duration-200 border border-white/40 text-white hover:bg-white/10 hover:-translate-y-0.5 backdrop-blur-sm">
                     Contáctanos
                   </span>
                 ) : (
-                  <Button variant="ghost" size="lg">Contáctanos</Button>
+                  <Button variant="ghost" size="lg" className="hover:-translate-y-0.5">Contáctanos</Button>
                 )}
               </Link>
             </div>

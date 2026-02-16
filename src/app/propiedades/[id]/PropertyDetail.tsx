@@ -361,7 +361,7 @@ export default function PropertyDetail({ id }: { id: string }) {
           onClick={() => setShowQR(false)}
         >
           <div
-            className="bg-surface border border-border rounded-2xl p-6 max-w-sm w-full relative"
+            className="bg-surface border border-border rounded-2xl p-6 max-w-sm w-full relative animate-slide-up"
             onClick={(e) => e.stopPropagation()}
           >
             <button

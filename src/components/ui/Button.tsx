@@ -21,7 +21,7 @@ const sizes = {
 export default function Button({ variant = "primary", size = "md", className = "", children, ...props }: ButtonProps) {
   return (
     <button
-      className={`rounded-full font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`rounded-full font-medium transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {children}

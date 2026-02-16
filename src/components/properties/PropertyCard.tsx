@@ -29,6 +29,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               {PROPERTY_TYPES[property.type]}
             </span>
           </div>
+          {property.featured && (
+            <div className="absolute bottom-3 right-3 animate-pop-in">
+              <span className="bg-warning/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">
+                Destacado
+              </span>
+            </div>
+          )}
           <div className="absolute top-3 right-3 flex items-center gap-2">
             <a
               href={`https://wa.me/?text=${encodeURIComponent(`${property.title} - ${formatPrice(property.price, property.currency)}\nhttps://inmobiliaria-rho-liard.vercel.app/propiedades/${property.id}`)}`}

@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useFavorites } from "@/hooks/useFavorites"
 
 interface FavoriteButtonProps {
@@ -9,19 +10,24 @@ interface FavoriteButtonProps {
 export default function FavoriteButton({ propertyId }: FavoriteButtonProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
   const active = isFavorite(propertyId)
+  const [animating, setAnimating] = useState(false)
 
   return (
     <button
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
+        if (!active) {
+          setAnimating(true)
+          setTimeout(() => setAnimating(false), 400)
+        }
         toggleFavorite(propertyId)
       }}
       className="p-2 rounded-full bg-surface/80 backdrop-blur-md border border-white/20 hover:bg-surface transition-all duration-200"
       aria-label={active ? "Quitar de favoritos" : "Agregar a favoritos"}
     >
       <svg
-        className={`w-4 h-4 transition-colors duration-200 ${active ? "text-red-500 fill-red-500" : "text-muted"}`}
+        className={`w-4 h-4 transition-colors duration-200 ${active ? "text-red-500 fill-red-500" : "text-muted"} ${animating ? "animate-pop-in" : ""}`}
         viewBox="0 0 24 24"
         fill={active ? "currentColor" : "none"}
         stroke="currentColor"
