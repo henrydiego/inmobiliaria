@@ -128,7 +128,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   description: "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
   phone: "+591 2 2123456",
   whatsapp: "+591 70012345",
-  email: "info@inmobiliaria21.com",
+  email: "ga85cas@gmail.com",
   address: "Av. 16 de Julio #123, La Paz",
   city: "La Paz",
   country: "Bolivia",
