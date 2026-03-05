@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import dynamic from "next/dynamic"
+import { useSearchParams } from "next/navigation"
 import { useProperties, PropertyFilters as Filters } from "@/hooks/useProperties"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import PropertyGrid from "@/components/properties/PropertyGrid"
@@ -19,8 +20,13 @@ const PropertiesMapView = dynamic(() => import("@/components/properties/Properti
 
 type ViewMode = "grid" | "map"
 
-export default function PropiedadesPage() {
-  const [filters, setFilters] = useState<Filters>({})
+function PropiedadesContent() {
+  const searchParams = useSearchParams()
+  const [filters, setFilters] = useState<Filters>(() => ({
+    zone: searchParams.get("zone") || undefined,
+    maxPrice: searchParams.get("maxPrice") ? parseInt(searchParams.get("maxPrice")!) : undefined,
+    minBedrooms: searchParams.get("minBedrooms") ? parseInt(searchParams.get("minBedrooms")!) : undefined,
+  }))
   const [view, setView] = useState<ViewMode>("grid")
   const { properties, loading, hasMore, loadMore } = useProperties(filters)
   const { config } = useSiteConfig()
@@ -72,5 +78,23 @@ export default function PropiedadesPage() {
         <PropertiesMapView properties={properties} />
       )}
     </div>
+  )
+}
+
+export default function PropiedadesPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="animate-pulse space-y-6">
+          <div className="h-10 bg-surface-2 rounded-full w-64" />
+          <div className="h-32 bg-surface-2 rounded-2xl" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1,2,3].map(i => <div key={i} className="h-72 bg-surface-2 rounded-2xl" />)}
+          </div>
+        </div>
+      </div>
+    }>
+      <PropiedadesContent />
+    </Suspense>
   )
 }

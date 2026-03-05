@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useFeaturedProperties } from "@/hooks/useProperties"
 import { useActiveTestimonials } from "@/hooks/useTestimonials"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
@@ -9,6 +11,81 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 import { useCountAnimation } from "@/hooks/useCountAnimation"
 import PropertyGrid from "@/components/properties/PropertyGrid"
 import Button from "@/components/ui/Button"
+
+function HeroSearch({ zones }: { zones: string[] }) {
+  const router = useRouter()
+  const [zone, setZone] = useState("")
+  const [maxPrice, setMaxPrice] = useState("")
+  const [minBedrooms, setMinBedrooms] = useState("")
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    const params = new URLSearchParams()
+    if (zone) params.set("zone", zone)
+    if (maxPrice) params.set("maxPrice", maxPrice)
+    if (minBedrooms) params.set("minBedrooms", minBedrooms)
+    router.push(`/propiedades${params.toString() ? `?${params.toString()}` : ""}`)
+  }
+
+  const selectClass =
+    "w-full px-3 py-2.5 bg-white dark:bg-surface border border-gray-200 dark:border-border rounded-xl text-gray-800 dark:text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all duration-200 cursor-pointer"
+  const labelClass = "block text-xs font-semibold text-gray-500 dark:text-muted uppercase tracking-wider mb-1.5"
+
+  return (
+    <form
+      onSubmit={handleSearch}
+      className="mt-10 bg-white/95 dark:bg-surface/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 p-5 border border-white/20"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <label className={labelClass}>Zona</label>
+          <select value={zone} onChange={(e) => setZone(e.target.value)} className={selectClass}>
+            <option value="">Todas las zonas</option>
+            {zones.map((z) => (
+              <option key={z} value={z}>{z}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className={labelClass}>Precio máx.</label>
+          <select value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className={selectClass}>
+            <option value="">Cualquier precio</option>
+            <option value="50000">Hasta $50,000</option>
+            <option value="100000">Hasta $100,000</option>
+            <option value="150000">Hasta $150,000</option>
+            <option value="200000">Hasta $200,000</option>
+            <option value="300000">Hasta $300,000</option>
+            <option value="500000">Hasta $500,000</option>
+          </select>
+        </div>
+
+        <div>
+          <label className={labelClass}>Habitaciones</label>
+          <select value={minBedrooms} onChange={(e) => setMinBedrooms(e.target.value)} className={selectClass}>
+            <option value="">Cualquier cantidad</option>
+            <option value="1">1+ habitaciones</option>
+            <option value="2">2+ habitaciones</option>
+            <option value="3">3+ habitaciones</option>
+            <option value="4">4+ habitaciones</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col justify-end">
+          <button
+            type="submit"
+            className="flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-accent/30 w-full"
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Buscar propiedades
+          </button>
+        </div>
+      </div>
+    </form>
+  )
+}
 
 function StatCounter({ target, label, suffix = "" }: { target: number; label: string; suffix?: string }) {
   const { count, ref } = useCountAnimation(target)
@@ -87,6 +164,7 @@ export default function HomePage() {
                 )}
               </Link>
             </div>
+            <HeroSearch zones={config.zones.length > 0 ? config.zones : ["Zona Sur", "Zona Norte", "Centro", "Sopocachi", "Miraflores", "Calacoto", "San Miguel", "Achumani"]} />
           </div>
         </div>
       </section>
