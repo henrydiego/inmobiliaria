@@ -31,7 +31,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
           {property.featured && (
             <div className="absolute bottom-3 right-3 animate-pop-in">
-              <span className="bg-warning/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">
+              <span className="bg-secondary/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">
                 Destacado
               </span>
             </div>
