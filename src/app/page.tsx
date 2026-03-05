@@ -188,6 +188,76 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Sobre Nosotros */}
+      <section className="max-w-7xl mx-auto px-4 py-24 scroll-animate">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Image side */}
+          <div className="relative order-2 lg:order-1">
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-surface-2">
+              {config.heroImage ? (
+                <Image
+                  src={config.heroImage}
+                  alt="Nuestro equipo"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-surface-2 to-accent/5 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <p className="text-muted font-medium">{config.companyName}</p>
+                  </div>
+                </div>
+              )}
+              {/* Decorative badge */}
+              <div className="absolute bottom-5 left-5 bg-white/95 dark:bg-surface/95 backdrop-blur-md rounded-2xl px-5 py-3 shadow-lg border border-white/20">
+                <p className="text-xs text-muted font-medium">Experiencia</p>
+                <p className="text-xl font-bold text-foreground tracking-tight">+12 años</p>
+              </div>
+            </div>
+            {/* Accent dot decoration */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/10 rounded-full blur-xl" />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-accent/5 rounded-full blur-2xl" />
+          </div>
+
+          {/* Text side */}
+          <div className="order-1 lg:order-2">
+            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">Quiénes somos</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-5">
+              Sobre Nosotros
+            </h2>
+            <p className="text-muted font-light leading-relaxed text-lg mb-6">
+              {config.description || `Somos ${config.companyName}, tu socio de confianza en bienes raíces en ${config.city}. Con más de 12 años ayudando a personas a encontrar su hogar ideal.`}
+            </p>
+            <p className="text-muted font-light leading-relaxed mb-8">
+              {config.mission}
+            </p>
+            {/* Values pills */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {config.values.slice(0, 4).map((v, i) => (
+                <span key={i} className="bg-accent/10 text-accent px-4 py-1.5 rounded-full text-sm font-medium">
+                  {v.title}
+                </span>
+              ))}
+            </div>
+            <Link
+              href="/nosotros"
+              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white font-semibold px-7 py-3 rounded-full transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-accent/25"
+            >
+              Conoce más
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Stats */}
       <section className="max-w-5xl mx-auto px-4 py-20 scroll-animate">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
