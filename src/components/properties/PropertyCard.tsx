@@ -73,7 +73,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </p>
 
           {/* Features */}
-          <div className="flex items-center gap-4 text-sm text-muted border-t border-divider pt-4">
+          <div className="flex items-center gap-4 text-sm text-muted border-t border-divider pt-4 mb-4">
             {property.bedrooms > 0 && (
               <span className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,6 +97,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               {formatArea(property.area)}
             </span>
           </div>
+          {/* CTA Button */}
+          <span className="flex items-center justify-center gap-2 w-full bg-accent hover:bg-accent-dark text-white text-sm font-semibold py-2.5 rounded-xl transition-all duration-200 group-hover:shadow-lg group-hover:shadow-accent/20">
+            Ver propiedad
+            <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
         </div>
       </div>
     </Link>
