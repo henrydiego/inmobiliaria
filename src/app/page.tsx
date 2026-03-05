@@ -9,8 +9,19 @@ import { useActiveTestimonials } from "@/hooks/useTestimonials"
 import { useSiteConfig } from "@/contexts/SiteConfigContext"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 import { useCountAnimation } from "@/hooks/useCountAnimation"
+import dynamic from "next/dynamic"
 import PropertyGrid from "@/components/properties/PropertyGrid"
 import Button from "@/components/ui/Button"
+
+const PropertiesMapView = dynamic(
+  () => import("@/components/properties/PropertiesMapView"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[420px] bg-surface-2 rounded-2xl border border-border animate-shimmer" />
+    ),
+  }
+)
 
 function HeroSearch({ zones }: { zones: string[] }) {
   const router = useRouter()
@@ -266,6 +277,20 @@ export default function HomePage() {
           <StatCounter target={12} label="Años de experiencia" />
           <StatCounter target={350} label="Clientes satisfechos" suffix="+" />
         </div>
+      </section>
+
+      {/* Map */}
+      <section className="max-w-7xl mx-auto px-4 py-24 scroll-animate">
+        <div className="flex items-end justify-between mb-10">
+          <div>
+            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-2">Ubicaciones</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">Mapa de Propiedades</h2>
+          </div>
+          <Link href="/propiedades?view=map" className="text-accent hover:text-accent-dark text-sm font-medium hidden md:block">
+            Ver mapa completo &rarr;
+          </Link>
+        </div>
+        <PropertiesMapView properties={properties} />
       </section>
 
       {/* Why Choose Us - Bento Grid */}
