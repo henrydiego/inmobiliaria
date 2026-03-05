@@ -23,8 +23,8 @@ const SITE_URL = "https://inmobiliaria-rho-liard.vercel.app"
 
 export const metadata: Metadata = {
   title: {
-    default: "Inmobiliaria 21 | Bienes Raíces en La Paz",
-    template: "%s | Inmobiliaria 21",
+    default: "Inmobiliaria | Bienes Raíces en La Paz",
+    template: "%s | Inmobiliaria",
   },
   description: "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
   manifest: "/manifest.json",
@@ -33,20 +33,20 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_BO",
     url: SITE_URL,
-    siteName: "Inmobiliaria 21",
-    title: "Inmobiliaria 21 | Bienes Raíces en La Paz",
+    siteName: "Inmobiliaria",
+    title: "Inmobiliaria | Bienes Raíces en La Paz",
     description: "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
-    images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: "Inmobiliaria 21" }],
+    images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: "Inmobiliaria" }],
   },
   twitter: {
     card: "summary",
-    title: "Inmobiliaria 21 | Bienes Raíces en La Paz",
+    title: "Inmobiliaria | Bienes Raíces en La Paz",
     description: "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Inmobiliaria 21",
+    title: "Inmobiliaria",
   },
   other: {
     "mobile-web-app-capable": "yes",
@@ -68,7 +68,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "RealEstateAgent",
-              "name": "Inmobiliaria 21",
+              "name": "Inmobiliaria",
               "description": "Encuentra tu propiedad ideal en La Paz. Casas, departamentos, terrenos y más.",
               "url": "https://inmobiliaria-rho-liard.vercel.app",
               "logo": "https://inmobiliaria-rho-liard.vercel.app/icons/icon-512.png",
