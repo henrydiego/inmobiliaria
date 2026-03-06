@@ -18,94 +18,77 @@ export default function PropertiesMapView({ properties }: PropertiesMapViewProps
   )
 
   useEffect(() => {
+    // Ensure the container div exists and we have properties to show
     if (!mapRef.current || mapped.length === 0) return
 
-    let cancelled = false
-
-    async function initMap() {
-      const L = (await import("leaflet")).default
-
-      if (cancelled || !mapRef.current) return
-
-      // Clean up previous map
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove()
-        mapInstanceRef.current = null
-      }
-
-      const center: [number, number] = [mapped[0].location.lat, mapped[0].location.lng]
-      const map = L.map(mapRef.current).setView(center, 13)
-      mapInstanceRef.current = map
-
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map)
-
-      const icon = L.divIcon({
-        html: `<div style="background:#2563eb;width:28px;height:28px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
-        </div>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
-        popupAnchor: [0, -14],
-        className: "",
-      })
-
-      const bounds = L.latLngBounds([])
-
-      mapped.forEach((property) => {
-        const latlng: [number, number] = [property.location.lat, property.location.lng]
-        bounds.extend(latlng)
-
-        const imgHtml = property.imageUrls[0]
-          ? `<img src="${property.imageUrls[0]}" alt="" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;" />`
-          : ""
-
-        const popup = L.popup({ maxWidth: 240 }).setContent(`
-          <div style="font-family:system-ui,sans-serif;">
-            ${imgHtml}
-            <div style="font-weight:700;font-size:13px;margin-bottom:4px;">${property.title}</div>
-            <div style="color:#2563eb;font-weight:700;font-size:14px;margin-bottom:4px;">${formatPrice(property.price, property.currency)}</div>
-            <div style="color:#64748b;font-size:12px;margin-bottom:8px;">${property.location.zone} · ${property.area}m²</div>
-            <a href="/propiedades/${property.id}" style="color:#2563eb;font-size:12px;font-weight:600;text-decoration:none;">Ver detalle →</a>
-          </div>
-        `)
-
-        L.marker(latlng, { icon }).addTo(map).bindPopup(popup)
-      })
-
-      if (mapped.length > 1) {
-        map.fitBounds(bounds, { padding: [40, 40] })
-      }
-
-      // Ensure map resizes correctly after initial load and potential layout changes
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 0); // Use setTimeout with 0 delay to defer to the end of the current call stack
+    // If a map instance already exists, remove it before creating a new one
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove()
+      mapInstanceRef.current = null
     }
 
-    // Only initialize map once the container is visible in viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          observer.disconnect()
-          initMap()
+    // Initialize map
+    const center: L.LatLngTuple = [mapped[0].location.lat, mapped[0].location.lng]
+    const map = L.map(mapRef.current).setView(center, 13)
+    mapInstanceRef.current = map
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map)
+
+    const icon = L.divIcon({
+      html: `<div style="background:#2563eb;width:28px;height:28px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+      </div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -14],
+      className: "", // Important for Leaflet not to add its own class
+    })
+
+    const bounds = L.latLngBounds([])
+
+    mapped.forEach((property) => {
+      const latlng: L.LatLngTuple = [property.location.lat, property.location.lng]
+      bounds.extend(latlng)
+
+      const imgHtml = property.imageUrls[0]
+        ? `<img src="${property.imageUrls[0]}" alt="" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;" />`
+        : ""
+
+      const popup = L.popup({ maxWidth: 240 }).setContent(`
+        <div style="font-family:system-ui,sans-serif;">
+          ${imgHtml}
+          <div style="font-weight:700;font-size:13px;margin-bottom:4px;">${property.title}</div>
+          <div style="color:#2563eb;font-weight:700;font-size:14px;margin-bottom:4px;">${formatPrice(property.price, property.currency)}</div>
+          <div style="color:#64748b;font-size:12px;margin-bottom:8px;">${property.location.zone} · ${property.area}m²</div>
+          <a href="/propiedades/${property.id}" style="color:#2563eb;font-size:12px;font-weight:600;text-decoration:none;">Ver detalle →</a>
+        </div>
+      `)
+
+      L.marker(latlng, { icon }).addTo(map).bindPopup(popup)
+    })
+    
+    // This is the key fix. We use a small timeout to ensure the browser has painted
+    // the container's dimensions before we ask the map to resize and fit bounds.
+    // This is a robust way to avoid race conditions in production environments.
+    setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize(true) // Pass true for a smoother animation
+        if (mapped.length > 1) {
+          mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50] })
         }
-      },
-      { threshold: 0.1 }
-    )
+      }
+    }, 150) // A 150ms delay is imperceptible but very safe for rendering.
 
-    observer.observe(mapRef.current)
-
+    // Cleanup function to run when the component unmounts
     return () => {
-      cancelled = true
-      observer.disconnect()
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove()
         mapInstanceRef.current = null
       }
     }
-  }, [mapped.length])
+  }, [properties])
 
   if (mapped.length === 0) {
     return (
