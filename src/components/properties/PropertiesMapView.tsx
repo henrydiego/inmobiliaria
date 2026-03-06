@@ -77,6 +77,11 @@ export default function PropertiesMapView({ properties }: PropertiesMapViewProps
       if (mapped.length > 1) {
         map.fitBounds(bounds, { padding: [40, 40] })
       }
+
+      // Ensure map resizes correctly after initial load and potential layout changes
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 0); // Use setTimeout with 0 delay to defer to the end of the current call stack
     }
 
     // Only initialize map once the container is visible in viewport
@@ -119,7 +124,6 @@ export default function PropertiesMapView({ properties }: PropertiesMapViewProps
 
   return (
     <div>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
       <div ref={mapRef} className="w-full h-[500px] rounded-2xl border border-border z-0" />
       <p className="text-muted text-xs mt-2">{mapped.length} propiedad{mapped.length !== 1 ? "es" : ""} con ubicación</p>
     </div>
