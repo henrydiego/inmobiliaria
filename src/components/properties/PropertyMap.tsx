@@ -20,6 +20,9 @@ export default function PropertyMap({ lat, lng, title }: PropertyMapProps) {
     const map = L.map(mapRef.current).setView([lat, lng], 15)
     mapInstanceRef.current = map
 
+    // Recalculate tile layout after CSS animations complete
+    setTimeout(() => map.invalidateSize(), 400)
+
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map)

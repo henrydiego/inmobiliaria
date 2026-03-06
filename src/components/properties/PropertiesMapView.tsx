@@ -79,10 +79,22 @@ export default function PropertiesMapView({ properties }: PropertiesMapViewProps
       }
     }
 
-    initMap()
+    // Only initialize map once the container is visible in viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect()
+          initMap()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(mapRef.current)
 
     return () => {
       cancelled = true
+      observer.disconnect()
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove()
         mapInstanceRef.current = null
